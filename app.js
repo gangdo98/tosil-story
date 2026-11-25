@@ -533,9 +533,9 @@
       .map((s) => `<button class="fchip${shopState.status === s.id ? ' is-on' : ''}" type="button" data-status="${s.id}">${s.label}</button>`)
       .join('');
 
-    const pool = friendView ? FRIEND : OUR_ITEMS;
+    const pool = friendView ? FRIEND : (shopState.cat === 'jpbuy' ? JPBUY : OUR_ITEMS);
     const filtered = pool.filter((it) =>
-      (friendView || shopState.cat === 'all' || it.cat === shopState.cat) &&
+      (shopState.cat === 'all' || shopState.cat === 'jiehye' || shopState.cat === 'jpbuy' || it.cat === shopState.cat) &&
       (shopState.status === 'all' || effStatus(it) === shopState.status));
 
     const ready = OUR_ITEMS.filter((it) => checks[it.id]).length;
