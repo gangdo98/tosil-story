@@ -1104,9 +1104,15 @@
     el.title = title || text;
   }
 
+  /* DB에는 체크된 항목은 true, 해제한 항목은 false로 남겨 두 폰의 판단이 엇갈리지 않게 해요 */
   const asMap = (obj) => {
     const out = {};
     Object.keys(obj || {}).forEach((k) => { if (obj[k]) out[k] = true; });
+    return out;
+  };
+  const remoteToChecks = (remote) => {
+    const out = {};
+    Object.keys(remote || {}).forEach((k) => { if (remote[k] === true) out[k] = true; });
     return out;
   };
   const sameMap = (a, b) => {
@@ -1121,9 +1127,9 @@
     renderBag();
   }
 
-  function applyRemote(val, quiet) {
-    const next = asMap(val);
-    if (sameMap(next, asMap(checks))) return;
+  function applyRemote(remote, quiet) {
+    const next = remoteToChecks(remote);
+    if (sameMap(next, checks)) return;
     sync.applying = true;
     checks = next;
     saveChecks();
@@ -1135,8 +1141,7 @@
   function pushCheck(id, on) {
     if (!sync.ref || sync.applying) return;
     try {
-      const ref = sync.ref.child(id);
-      (on ? ref.set(true) : ref.remove()).catch(() => {
+      sync.ref.child(id).set(!!on).catch(() => {
         paintSync('err', '동기화 안 됨', '지금은 이 기기에만 저장돼요. 연결되면 다시 올려요.');
       });
     } catch (e) { /* 오프라인이면 localStorage에만 남아요 */ }
@@ -1163,8 +1168,8 @@
       let first = true;
       sync.ref.on('value', (snap) => {
         const val = snap.val();
-        const has = val && typeof val === 'object' && Object.keys(val).length > 0;
-        if (!has) {
+        const remote = val && typeof val === 'object' ? val : null;
+        if (!remote || !Object.keys(remote).length) {
           // DB가 비어 있으면 이 기기에 쌓여 있던 체크를 올려 둬요
           const mine = asMap(checks);
           if (Object.keys(mine).length) sync.ref.set(mine).catch(() => {});
@@ -1172,7 +1177,15 @@
           paintSync('on', SYNC_ON, '두 폰의 체크 상태를 함께 쓰고 있어요');
           return;
         }
-        applyRemote(val, first);
+        if (first) {
+          // 첫 연결: DB에 없는 이 기기의 체크만 더해 두고, 나머지는 DB를 따라요
+          const patch = {};
+          Object.keys(checks).forEach((k) => { if (!(k in remote)) patch[k] = true; });
+          if (Object.keys(patch).length) sync.ref.update(patch).catch(() => {});
+          applyRemote(remote, true);
+        } else {
+          applyRemote(remote, false);
+        }
         first = false;
         paintSync('on', SYNC_ON, '두 폰의 체크 상태를 함께 쓰고 있어요');
       }, (err) => {
