@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FBF6EC">
+<meta name="robots" content="noindex, nofollow">
+<title>토실이 준비 노트 · 2027.04.12</title>
+<meta name="description" content="강도완·김명주 부부의 출산·육아 준비 노트. 임신 주수와 D-Day, 준비물 목록, 주차별 할 일, 지원금과 휴직 계획을 한 페이지에.">
+<script>
+try{if(localStorage.getItem('tosil.lock.v1')==='1'){document.documentElement.className+=' unlocked';}}catch(e){}
+</script>
+<link rel="icon" href="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='26' fill='%23A8DCC8'/%3E%3Ctext x='50' y='71' font-size='54' text-anchor='middle'%3E%F0%9F%8C%B1%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap">
+<link rel="stylesheet" href="styles.css?v=20261125a">
+</head>
+<body>
+
+<!-- ───────── 잠금 화면 ───────── -->
+<div class="lock" id="lock" role="dialog" aria-modal="true" aria-labelledby="lockTitle">
+  <div class="lock__blob lock__blob--a" aria-hidden="true"></div>
+  <div class="lock__blob lock__blob--b" aria-hidden="true"></div>
+  <div class="lock__card">
+    <div class="lock__icon" aria-hidden="true">🌱</div>
+    <p class="lock__kicker">TOSIL STORY</p>
+    <h1 class="lock__title" id="lockTitle">토실이 준비 노트</h1>
+    <p class="lock__sub">우리 가족만 보는 페이지예요.<br>비밀번호 4자리를 눌러 주세요.</p>
+    <div class="dots" id="dots" aria-hidden="true">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    </div>
+    <p class="lock__msg" id="lockMsg" role="status" aria-live="polite"></p>
+    <div class="keypad" id="keypad">
+      <button class="key" type="button" data-key="1">1</button>
+      <button class="key" type="button" data-key="2">2</button>
+      <button class="key" type="button" data-key="3">3</button>
+      <button class="key" type="button" data-key="4">4</button>
+      <button class="key" type="button" data-key="5">5</button>
+      <button class="key" type="button" data-key="6">6</button>
+      <button class="key" type="button" data-key="7">7</button>
+      <button class="key" type="button" data-key="8">8</button>
+      <button class="key" type="button" data-key="9">9</button>
+      <button class="key key--ghost" type="button" data-key="del" aria-label="한 자리 지우기">⌫</button>
+      <button class="key" type="button" data-key="0">0</button>
+      <button class="key key--ghost" type="button" data-key="reset" aria-label="처음부터">↺</button>
+    </div>
+  </div>
+</div>
+
+<div class="app">
+
+  <!-- ───────── 상단 히어로 ───────── -->
+  <header class="hero" id="top">
+    <div class="hero__glow hero__glow--a" aria-hidden="true"></div>
+    <div class="hero__glow hero__glow--b" aria-hidden="true"></div>
+    <div class="hero__inner">
+      <div class="hero__top">
+        <p class="hero__kicker">TOSIL STORY · 우리 아기 준비 노트</p>
+        <button class="lockbtn" id="lockBtn" type="button" aria-label="다시 잠그기">
+          <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M17 9V7a5 5 0 0 0-10 0v2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2Zm-8-2a3 3 0 0 1 6 0v2H9V7Zm3 7a1.6 1.6 0 0 1 .8 3v1.4a.8.8 0 0 1-1.6 0V17a1.6 1.6 0 0 1 .8-3Z"/></svg>
+          <span>잠그기</span>
+        </button>
+      </div>
+
+      <h1 class="hero__week" id="heroWeek">20주 2일</h1>
+      <p class="hero__dday"><span id="heroDday">D-138</span><span class="hero__sep" aria-hidden="true">·</span><span id="heroDue">출산 예정일 2027. 4. 12</span></p>
+
+      <div class="progress" role="img" aria-label="임신 진행률">
+        <span class="progress__bar" id="progBar"></span>
+        <span class="progress__tick" id="progTick" aria-hidden="true"></span>
+      </div>
+      <p class="progress__label" id="progLabel">280일 중 142일 지남 · 50.7%</p>
+
+      <div class="hero__cards">
+        <div class="mini">
+          <p class="mini__k">이번 주 토실이</p>
+          <p class="mini__v"><span id="sizeEmoji">🍌</span> <span id="sizeName">바나나만 해요</span></p>
+          <p class="mini__n" id="sizeNote">키 약 25cm · 몸무게 약 300g</p>
+        </div>
+        <div class="mini">
+          <p class="mini__k">태명</p>
+          <p class="mini__v">토실토실 <span id="daysToGo" class="mini__pill">138일 뒤 만나요</span></p>
+          <p class="mini__n">도완 &amp; 명주, 우리 아기를 기다리며</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ───────── 탭 ───────── -->
+  <nav class="tabs" id="tabs" aria-label="준비 노트 탭">
+    <button class="tab is-active" type="button" data-tab="photo" aria-selected="true"><span class="tab__icon" aria-hidden="true">📸</span><span class="tab__label">사진</span></button>
+    <button class="tab" type="button" data-tab="shop" aria-selected="false"><span class="tab__icon" aria-hidden="true">🛒</span><span class="tab__label">살 것</span></button>
+    <button class="tab" type="button" data-tab="task" aria-selected="false"><span class="tab__icon" aria-hidden="true">✅</span><span class="tab__label">할 일</span></button>
+    <button class="tab" type="button" data-tab="hospital" aria-selected="false"><span class="tab__icon" aria-hidden="true">🏥</span><span class="tab__label">병원</span></button>
+    <button class="tab" type="button" data-tab="money" aria-selected="false"><span class="tab__icon" aria-hidden="true">💰</span><span class="tab__label">지원금</span></button>
+    <button class="tab" type="button" data-tab="bag" aria-selected="false"><span class="tab__icon" aria-hidden="true">🎒</span><span class="tab__label">가방</span></button>
+    <button class="tab" type="button" data-tab="names" aria-selected="false"><span class="tab__icon" aria-hidden="true">✏️</span><span class="tab__label">이름</span></button>
+  </nav>
+
+  <main>
+
+    <!-- ───────── 1. 사진 ───────── -->
+    <section class="panel is-active" id="panel-photo" aria-label="토실이 사진">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2>토실이 사진</h2>
+          <p>주수별 초음파 사진과 한 줄 성장 기록을 모아 두는 곳이에요.</p>
+        </div>
+
+        <div class="notice">
+          <span class="notice__icon" aria-hidden="true">💌</span>
+          <div>
+            <p class="notice__title">초음파 사진 보내는 법</p>
+            <p class="notice__body">사진에 찍힌 <b>이름 · 생년월일 · 병원명</b>을 가린 뒤 피클에게 보내 주세요. 바로 이 타임라인에 올려드릴게요.</p>
+          </div>
+        </div>
+
+        <div class="album__head">
+          <h3 class="h3">주수별 타임라인</h3>
+          <span class="count" id="photoCount">0장</span>
+        </div>
+        <div class="album" id="album"></div>
+
+        <div class="sec-head sec-head--tight">
+          <h2>한 줄 성장 기록</h2>
+          <p>“오늘 심장 소리 들었어요” 같은 한 줄도 쌓이면 오래 남아요.</p>
+        </div>
+        <div id="growthNotes"></div>
+      </div>
+    </section>
+
+    <!-- ───────── 2. 살 것 ───────── -->
+    <section class="panel" id="panel-shop" aria-label="사야 할 것" hidden>
+      <div class="wrap">
+        <div class="sec-head">
+          <h2>살 것 · 출산·육아용품</h2>
+          <p>후쿠오카에서 사 올 것과 국내에서 채울 준비물을 한 번에. 준비한 것엔 체크를 해 두세요.</p>
+        </div>
+
+        <div class="filters">
+          <div class="filter-row" id="catFilters" role="group" aria-label="대분류 필터"></div>
+          <div class="filter-row filter-row--status" id="statusFilters" role="group" aria-label="상태 필터"></div>
+        </div>
+        <p class="filter-summary" id="shopSummary"></p>
+
+        <div class="stack" id="shopList"></div>
+      </div>
+    </section>
+
+    <!-- ───────── 3. 할 일 ───────── -->
+    <section class="panel" id="panel-task" aria-label="해야 하는 것" hidden>
+      <div class="wrap">
+        <div class="sec-head">
+          <h2>해야 하는 것 · 주차별 할 일</h2>
+          <p>중기 · 후기 · 막달 · 출산 직후, 지금 해야 할 일부터 순서대로.</p>
+        </div>
+        <div class="totalbar" id="taskTotal"></div>
+        <div id="taskStages"></div>
+      </div>
+    </section>
+
+    <!-- ───────── 4. 병원 ───────── -->
+    <section class="panel" id="panel-hospital" aria-label="병원과 검진" hidden>
+      <div class="wrap">
+        <div class="sec-head">
+          <h2>병원 · 검진 기록</h2>
+          <p>주수별로 챙겨야 하는 검사와 다음 검진 메모.</p>
+        </div>
+
+        <div class="card appointment" id="appointment">
+          <div class="appointment__head">
+            <span class="badge badge--mint">다음 검진</span>
+            <span class="appointment__state">아직 미정</span>
+          </div>
+          <p class="appointment__title">20주 정밀초음파</p>
+          <p class="appointment__sub">병원명과 예약일이 정해지면 아래 메모에 적어 두세요.</p>
+          <dl class="kv">
+            <div><dt>병원</dt><dd>미정</dd></div>
+            <div><dt>예약일</dt><dd>미정 (11월 말 ~ 12월 초)</dd></div>
+          </dl>
+        </div>
+
+        <div class="sec-head sec-head--tight">
+          <h2>주수별 필수 검사</h2>
+          <p>병원에서 안내받은 일정이 우선이에요. 아래는 일반적인 기준이에요.</p>
+        </div>
+        <div class="stack" id="exams"></div>
+
+        <div class="sec-head sec-head--tight">
+          <h2>검진 메모</h2>
+          <p>병원에서 들은 이야기, 다음 예약일, 결과 수치를 적어 두세요. 이 기기에만 저장돼요.</p>
+        </div>
+        <div class="memo">
+          <textarea id="memo" rows="6" placeholder="예) 11/28 정밀초음파 예약 · OO병원 3층&#10;예) 12/20 임당검사, 전날 밤 9시 이후 금식"></textarea>
+          <p class="memo__hint" id="memoHint">입력하면 자동으로 저장돼요.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── 5. 지원금 ───────── -->
+    <section class="panel" id="panel-money" aria-label="지원금과 휴직" hidden>
+      <div class="wrap">
+        <div class="sec-head">
+          <h2>지원금 · 휴직 플랜</h2>
+          <p>2026년 11월 기준으로 확인한 제도예요. 2027년 예산·조례에 따라 달라질 수 있으니 신청 전에 한 번 더 확인하세요.</p>
+        </div>
+
+        <div class="total" id="moneyTotal"></div>
+
+        <div class="sec-head sec-head--tight">
+          <h2>받을 수 있는 지원</h2>
+        </div>
+        <div class="stack" id="moneyList"></div>
+
+        <div class="sec-head sec-head--tight">
+          <h2>육아휴직 플랜</h2>
+          <p>도완 6개월(3개월 + 3개월) + 명주 18개월. 부모 함께 육아휴직제(6+6)를 끝까지 쓰는 조합이에요.</p>
+        </div>
+
+        <div class="card leave-summary" id="leaveSummary"></div>
+
+        <div class="sec-head sec-head--tight">
+          <h2>6+6 월 상한</h2>
+          <p>부모가 같이 쓴 개월 수만큼 첫 6개월 상한이 올라가요. 지급률은 통상임금 100%.</p>
+        </div>
+        <div class="tablewrap">
+          <table class="table">
+            <caption class="sr-only">부모 함께 육아휴직제 6개월 상한</caption>
+            <thead><tr><th>휴직 개월</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr></thead>
+            <tbody><tr><th>월 상한</th><td>250</td><td>250</td><td>300</td><td>350</td><td>400</td><td>450</td></tr></tbody>
+          </table>
+        </div>
+        <p class="table-note">단위 만 원. 7개월째부터는 통상임금 80% · 월 160만 원 상한, 하한은 월 70만 원이에요.</p>
+
+        <div class="sec-head sec-head--tight">
+          <h2>휴직 타임라인</h2>
+        </div>
+        <div class="plan" id="leavePlan"></div>
+
+        <div class="sec-head sec-head--tight">
+          <h2>계산해 보면</h2>
+        </div>
+        <div class="card calc" id="leaveCalc"></div>
+
+        <div class="card caution" id="leaveCaution"></div>
+
+        <p class="source">출처 · 보건복지부·복지로(첫만남이용권·부모급여·아동수당), 부산광역시·동구(출산지원금·부산형 산후조리비), 국민건강보험공단(임신·출산 진료비), 고용노동부(육아휴직 급여·배우자 출산전후휴가). 확인일 2026-11-25.</p>
+      </div>
+    </section>
+
+    <!-- ───────── 6. 가방 ───────── -->
+    <section class="panel" id="panel-bag" aria-label="출산 가방" hidden>
+      <div class="wrap">
+        <div class="sec-head">
+          <h2>출산 가방 체크리스트</h2>
+          <p>병원에 갈 때 바로 들고 나갈 수 있게, 32주쯤부터 하나씩 채워 두세요.</p>
+        </div>
+        <div class="totalbar" id="bagTotal"></div>
+        <div id="bagGroups"></div>
+      </div>
+    </section>
+
+    <!-- ───────── 7. 이름 ───────── -->
+    <section class="panel" id="panel-names" aria-label="이름 후보와 선물 기록" hidden>
+      <div class="wrap">
+        <div class="sec-head">
+          <h2>이름 후보</h2>
+          <p>떠오를 때마다 적어 두고, 출생신고 전에 둘이서 하나 고르기.</p>
+        </div>
+        <form class="addform" id="nameForm" autocomplete="off">
+          <input class="input" id="nameInput" type="text" maxlength="30" placeholder="이름 후보 (예: 강토실, 강하람)" aria-label="이름 후보">
+          <button class="btn" type="submit">추가</button>
+        </form>
+        <div class="chips" id="nameList"></div>
+
+        <div class="sec-head sec-head--tight">
+          <h2>선물 · 물려받은 용품</h2>
+          <p>누가 무엇을 줬는지 적어 두면 나중에 마음을 갚기도 쉬워요.</p>
+        </div>
+        <form class="addform addform--two" id="giftForm" autocomplete="off">
+          <input class="input" id="giftFrom" type="text" maxlength="20" placeholder="누가 (예: 이모)" aria-label="준 사람">
+          <input class="input" id="giftWhat" type="text" maxlength="40" placeholder="무엇을 (예: 아기 수건 세트)" aria-label="받은 물건">
+          <button class="btn" type="submit">기록</button>
+        </form>
+        <div class="stack" id="giftList"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p class="footer__title">토실이 준비 노트</p>
+    <p class="footer__meta">강도완 · 김명주 · 2027. 4. 12 만나요</p>
+    <p class="footer__note">마지막 업데이트 <span id="updated">2026-11-25</span> · 가족만 보는 페이지예요</p>
+  </footer>
+
+</div>
+
+<button class="totop" id="toTop" type="button" aria-label="맨 위로">↑</button>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="app.js?v=20261125a"></script>
+</body>
+</html>
