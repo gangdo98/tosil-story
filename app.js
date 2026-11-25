@@ -703,8 +703,8 @@
   ];
 
   const CARE_DOCS = [
-    { src: 'assets/luanne-contract.jpg', title: '예약확인서 원본', sub: '2026. 8. 28 · 루안느 산후조리원' },
-    { src: 'assets/luanne-payment.jpg', title: '예약금 결제완료', sub: '385,000원 · 김코디 · 신용카드' },
+    { src: 'assets/luanne-contract.jpg?v=20261125m', title: '예약확인서 원본', sub: '2026. 8. 28 · 루안느 산후조리원' },
+    { src: 'assets/luanne-payment.jpg?v=20261125m', title: '예약금 결제완료', sub: '385,000원 · 김코디 · 신용카드' },
     { src: 'assets/medi-spa-free.jpg', title: '메디스파 무료 혜택', sub: '룸 타입별 1회 무료 서비스' },
     { src: 'assets/medi-spa-price.jpg', title: '메디스파 요금표', sub: '1회 / 10회 가격' }
   ];
