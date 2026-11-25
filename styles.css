@@ -391,7 +391,7 @@ html.unlocked .lock{display:none}
 .money__top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
 .money__title{font-size:14px;font-weight:700;letter-spacing:-.02em}
 .money__amount{margin-top:7px;font-family:var(--serif);font-size:20px;font-weight:700;color:#1F6B57;letter-spacing:-.03em;line-height:1.2}
-.money__amount small{font-family:var(--sans);font-size:11px;font-weight:600;color:var(--muted);margin-left:5px;letter-spacing:0}
+.money__amount small{display:block;font-family:var(--sans);font-size:11px;font-weight:600;color:var(--muted);margin:5px 0 0;letter-spacing:0}
 .money__body{margin-top:7px;font-size:11.8px;line-height:1.7;color:var(--ink-soft)}
 .money__list{margin-top:9px;display:grid;gap:3px}
 .money__list li{position:relative;padding-left:10px;font-size:11.5px;line-height:1.6;color:var(--muted)}
@@ -450,6 +450,10 @@ html.unlocked .lock{display:none}
 /* ───────── 이름·선물 ───────── */
 .addform{display:flex;gap:8px;margin-bottom:14px}
 .addform--two{display:grid;grid-template-columns:1fr 1.3fr auto}
+@media (max-width:460px){
+  .addform--two{grid-template-columns:1fr 1fr}
+  .addform--two .btn{grid-column:1 / -1}
+}
 .input{
   flex:1;min-width:0;padding:11px 13px;border-radius:13px;border:1px solid var(--line);
   background:var(--paper);font:inherit;font-size:13px;color:var(--ink);outline:none;
