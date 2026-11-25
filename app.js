@@ -34,7 +34,7 @@
     del(k) { try { localStorage.removeItem(k); } catch (e) {} }
   };
 
-  const checks = store.get(KEY.check, {}) || {};
+  let checks = store.get(KEY.check, {}) || {};
   const saveChecks = () => store.set(KEY.check, checks);
 
   function toast(msg) {
@@ -142,6 +142,10 @@
       title: '다른 각도로 한 장 더', note: '12주 1일 · 같은 날 두 번째 컷'
     },
     {
+      week: 14, day: 5, date: '2026. 10. 17', src: 'assets/ultra-20261017-14w5d.jpg',
+      title: '다리·발이 보이던 날', note: '14주 5일 · 초음파'
+    },
+    {
       week: 20, day: 1, date: '2026. 11. 24', src: 'assets/ultra-20261124-20w1d.jpg',
       title: '얼굴이 나왔어요', note: '20주 1일 · 옆얼굴 입체초음파'
     }
@@ -150,6 +154,7 @@
   const MILESTONES = [
     { week: 7, label: '첫 만남' },
     { week: 12, label: '1차 검사' },
+    { week: 14, label: '중간 초음파' },
     { week: 16, label: '' },
     { week: 20, label: '정밀초음파' },
     { week: 24, label: '' },
@@ -162,6 +167,7 @@
   const NOTES = [
     { date: '2026. 8. 28', text: '7주 4일, 첫 초음파. 아기집이 보였어요.' },
     { date: '2026. 9. 29', text: '12주 1일. 코와 입, 팔·다리 윤곽이 잡혔어요.' },
+    { date: '2026. 10. 17', text: '14주 5일. 중간에 한 번 더 보고 사진으로 남겼어요.' },
     { date: '2026. 11. 24', text: '20주 1일. 옆얼굴이 나왔어요. 볼이 통통해졌어요.' },
     { date: '2026. 11. 25', text: '루안느 산후조리원 B프레스티지 9박 10일 계약 확인.' }
   ];
@@ -225,7 +231,8 @@
     { id: 'cloth', label: '의류' },
     { id: 'mom', label: '산모' },
     { id: 'etc', label: '기타' },
-    { id: 'jpbuy', label: '찌구매but일본구매', hot: true }
+    { id: 'jpbuy', label: '찌구매but일본구매', hot: true },
+    { id: 'jiehye', label: '지혜구매', hot: true, friend: true }
   ];
   const CAT_LABEL = Object.fromEntries(CATS.map((c) => [c.id, c.label]));
 
@@ -253,10 +260,10 @@
     { id: 'birth', title: '출산 직후 바로 쓸 3종', sub: '2027. 3. 20경 구매 · 캘린더에 등록' },
     { id: 'essentials', title: '신생아 준비물', sub: '체크하면 완료로 바뀌어요' },
     { id: 'company', title: '회사 출산축하선물 · 5종 중 1택', sub: 'CV 복지 · 출산 후 신청' },
-    { id: 'friend', title: '지인(홈런이) 리스트', sub: '2026. 11. 2 기준 · 참고용' }
+    { id: 'friend', title: '지혜구매 · 지인(홈런이) 리스트', sub: '2026. 11. 2 기준 · 지혜구매 분류에서만 보여요' }
   ];
 
-  /* ── 일본에서 사 올 것 ── */
+  /* ── 일본(후쿠오카)에서 사 올 것 — 우리 부부 구매분만 ── */
   const JPBUY = [
     {
       id: 'k-tripp', cat: 'sleep', group: 'jpbuy', status: 'reserved',
@@ -304,58 +311,6 @@
       next: '12월 말~1월 1일경 주문. 네덜란드에서 3~5일(최대 7일) 걸려요. 체크인 때 프런트에서 받고 박스는 버려도 돼요.'
     },
     {
-      id: 'j-bottle', cat: 'feed', group: 'jpbuy', status: 'consider', status0: 1,
-      name: '젖병 2종류만 소량 (더블하트 · 피죤)', price: '국내 2개 40,000원 / 일본 ¥2,860~',
-      tags: ['아카짱혼포', '지인도 더블하트 160ml 2개'],
-      notes: [
-        '지인은 더블하트 160ml 2개를 베이비페어에서 40,000원, 닥터브라운 150ml 2개를 46,500원에 샀어요',
-        '일본 피죤 母乳実感 160ml ¥2,860 · 240ml ¥2,970 (PPSU는 ¥3,190·3,300)',
-        '아기마다 맞는 젖병이 달라 미리 많이 사지 말라는 게 지인 의견 — 2종류만'
-      ]
-    },
-    {
-      id: 'j-brush', cat: 'feed', group: 'jpbuy', status: 'consider',
-      name: '젖병 세척솔 · 젖병집게', price: '일본 ¥638~877',
-      tags: ['피죤', '지인 26,500원'],
-      notes: ['피죤 스펀지 브러쉬 ¥638 · 회전식 ¥877 · 젖병집게 포함 세트 ¥1,848', '스펀지보다 실리콘·교체형이 오래가요']
-    },
-    {
-      id: 'j-detergent', cat: 'feed', group: 'jpbuy', status: 'consider',
-      name: '젖병 세제', price: '일본 ¥822~1,427',
-      tags: ['피죤', '지인 9,000원'],
-      notes: ['피죤 哺乳びん洗い 800ml ¥1,042 · 泡スプレー ¥822 · 詰替 1.4L ¥1,427', '“아기” 이름 붙은 것보다 1종 세제면 충분하다는 의견도 있어요']
-    },
-    {
-      id: 'j-paci', cat: 'feed', group: 'jpbuy', status: 'consider',
-      name: '쪽쪽이', price: '지인 11,900원',
-      tags: ['모윰 · 피죤', '일본이 종류 많아요'],
-      notes: ['지인은 모윰 쪽쪽이 1개 11,900원', '아카짱혼포에 피죤·치코 쪽쪽이 종류가 많아요']
-    },
-    {
-      id: 'j-tub', cat: 'bath', group: 'jpbuy', status: 'consider',
-      name: '아기 욕조', price: '일본 ¥4,620~5,720',
-      tags: ['리첼', '지인 16,300원'],
-      notes: ['리첼 푸카푸카 베이비바스 ¥4,620 / 스텝업 ¥5,720', '목을 못 가누는 시기엔 바구니형이 안전해요. 크면 물만 많이 들어요']
-    },
-    {
-      id: 'j-thermo', cat: 'bath', group: 'jpbuy', status: 'consider',
-      name: '탕온계 (목욕물 온도계)', price: '지인은 사은품',
-      tags: ['아카짱혼포'],
-      notes: ['목욕물 온도를 눈으로 맞추기 어려워요. 38~40도 확인용']
-    },
-    {
-      id: 'j-nail', cat: 'bath', group: 'jpbuy', status: 'consider',
-      name: '피죤 신생아 손톱가위', price: '¥987',
-      tags: ['아카짱혼포 라라포트점'],
-      notes: ['지인은 베이비페어 사은품으로 받았어요']
-    },
-    {
-      id: 'j-cotton', cat: 'bath', group: 'jpbuy', status: 'consider',
-      name: '피죤 점착면봉', price: '¥308',
-      tags: ['아카짱혼포'],
-      notes: ['한 번 쓰고 버리는 소포장 · 코딱지 뺄 때']
-    },
-    {
       id: 'j-nose', cat: 'bath', group: 'jpbuy', status: 'consider',
       name: '피죤 슈폿 전동 콧물흡입기', price: '¥14,300',
       tags: ['한정 베이지'],
@@ -392,22 +347,10 @@
       notes: []
     },
     {
-      id: 'j-teether', cat: 'etc', group: 'jpbuy', status: 'consider',
-      name: '에디슨 바나나 치발기', price: '¥748',
-      tags: ['지인은 치발기 추후 구입'],
-      notes: []
-    },
-    {
       id: 'j-bath', cat: 'bath', group: 'jpbuy', status: 'consider',
       name: '스키나베브 입욕제', price: '¥500대',
       tags: ['아카짱혼포'],
       notes: ['태열·건조할 때 목욕물에']
-    },
-    {
-      id: 'j-cloth', cat: 'cloth', group: 'jpbuy', status: 'consider',
-      name: '유니클로 아기 바디수트 (반팔 3 + 긴팔 1)', price: '지인 4개 34,600원',
-      tags: ['유니클로 라라포트점', '지인도 유니클로'],
-      notes: ['60사이즈 4개를 34,600원에 샀어요', '일본 유니클로가 한국보다 조금 싸고 사이즈가 다양해요']
     },
     {
       id: 'j-diaper', cat: 'bath', group: 'jpbuy', status: 'consider',
@@ -530,8 +473,8 @@
   ].map((x) => ({ ...x, group: 'essentials', status: 'consider', tags: [] }));
 
   /* ── 지인 리스트 ── */
+  /* 지인 리스트는 지혜구매 분류 전용 — 다른 분류에는 절대 섞이지 않아요 */
   const FRIEND = (window.FRIEND_ITEMS || [])
-    .filter((x) => !x.j)
     .map((x, i) => ({
       id: 'f' + i,
       group: 'friend',
@@ -544,7 +487,8 @@
       note: x.m || ''
     }));
 
-  const SHOP_ITEMS = [...JPBUY, ...BIRTH3, ...ESSENTIALS, ...COMPANY, ...FRIEND];
+  /* 우리(강도완·김명주) 구매 리스트 — 지인 리스트와 완전히 분리 */
+  const OUR_ITEMS = [...JPBUY, ...BIRTH3, ...ESSENTIALS, ...COMPANY];
   const shopState = { cat: 'all', status: 'all' };
 
   const effStatus = (it) => (checks[it.id] ? 'done' : it.status);
@@ -577,20 +521,27 @@
   function renderShop() {
     const catHost = $('#catFilters');
     const stHost = $('#statusFilters');
+    /* 지혜구매 = 지인 리스트 전용 분류. 다른 분류에는 지인 항목이 섞이지 않아요. */
+    const friendView = shopState.cat === 'jiehye';
+    if (friendView) shopState.status = 'all';
 
     catHost.innerHTML = [{ id: 'all', label: '전체' }, ...CATS]
       .map((c) => `<button class="fchip${shopState.cat === c.id ? ' is-on' : ''}${c.hot ? ' fchip--hot' : ''}" type="button" data-cat="${c.id}">${c.label}</button>`)
       .join('');
+    stHost.style.display = friendView ? 'none' : '';
     stHost.innerHTML = STATUS_FILTERS
       .map((s) => `<button class="fchip${shopState.status === s.id ? ' is-on' : ''}" type="button" data-status="${s.id}">${s.label}</button>`)
       .join('');
 
-    const filtered = SHOP_ITEMS.filter((it) =>
-      (shopState.cat === 'all' || it.cat === shopState.cat) &&
+    const pool = friendView ? FRIEND : OUR_ITEMS;
+    const filtered = pool.filter((it) =>
+      (friendView || shopState.cat === 'all' || it.cat === shopState.cat) &&
       (shopState.status === 'all' || effStatus(it) === shopState.status));
 
-    const ready = SHOP_ITEMS.filter((it) => checks[it.id]).length;
-    $('#shopSummary').textContent = `전체 ${SHOP_ITEMS.length}개 · 준비 완료 ${ready}개 · 지금 보이는 ${filtered.length}개`;
+    const ready = OUR_ITEMS.filter((it) => checks[it.id]).length;
+    $('#shopSummary').textContent = friendView
+      ? `지혜구매 · 지인 리스트 ${FRIEND.length}개 · 우리 구매 ${OUR_ITEMS.length}개와는 따로 보여요 · 지금 보이는 ${filtered.length}개`
+      : `우리 구매 ${OUR_ITEMS.length}개 · 준비 완료 ${ready}개 · 지금 보이는 ${filtered.length}개`;
 
     if (!filtered.length) {
       $('#shopList').innerHTML = `
@@ -1130,6 +1081,110 @@
     });
   }
 
+  /* ───────────────────────── 실시간 동기화 (도완 폰 ↔ 명주 폰) ───────────────────────── */
+  const FB_CONFIG = {
+    apiKey: 'AIzaSyCgZ6AYYIxzbEe135USUhTX_pB684zita8',
+    authDomain: 'tosil-story.firebaseapp.com',
+    databaseURL: 'https://tosil-story-default-rtdb.firebaseio.com',
+    projectId: 'tosil-story',
+    storageBucket: 'tosil-story.firebasestorage.app',
+    messagingSenderId: '407302916302',
+    appId: '1:407302916302:web:f62c3acaea531fae18689f'
+  };
+  const FB_PATH = 'tosil_story/state/checks';
+  const SYNC_ON = '실시간 동기화 중';
+  const sync = { ref: null, timer: null, applying: false };
+
+  function paintSync(state, text, title) {
+    const el = $('#syncState');
+    if (!el) return;
+    el.dataset.state = state;
+    const t = $('.sync__text', el);
+    if (t) t.textContent = text;
+    el.title = title || text;
+  }
+
+  const asMap = (obj) => {
+    const out = {};
+    Object.keys(obj || {}).forEach((k) => { if (obj[k]) out[k] = true; });
+    return out;
+  };
+  const sameMap = (a, b) => {
+    const ka = Object.keys(a).sort();
+    const kb = Object.keys(b).sort();
+    return ka.length === kb.length && ka.every((k, i) => k === kb[i]);
+  };
+
+  function refreshChecksUI() {
+    renderShop();
+    renderTasks();
+    renderBag();
+  }
+
+  function applyRemote(val, quiet) {
+    const next = asMap(val);
+    if (sameMap(next, asMap(checks))) return;
+    sync.applying = true;
+    checks = next;
+    saveChecks();
+    refreshChecksUI();
+    sync.applying = false;
+    if (!quiet) toast('다른 폰에서 바뀐 체크를 맞췄어요');
+  }
+
+  function pushCheck(id, on) {
+    if (!sync.ref || sync.applying) return;
+    try {
+      const ref = sync.ref.child(id);
+      (on ? ref.set(true) : ref.remove()).catch(() => {
+        paintSync('err', '동기화 안 됨', '지금은 이 기기에만 저장돼요. 연결되면 다시 올려요.');
+      });
+    } catch (e) { /* 오프라인이면 localStorage에만 남아요 */ }
+  }
+
+  function initSync() {
+    if (!window.firebase || typeof window.firebase.database !== 'function') {
+      paintSync('err', '동기화 연결 실패', '실시간 동기화를 불러오지 못했어요. 체크는 이 기기에만 저장돼요.');
+      return;
+    }
+    try {
+      const app = firebase.apps && firebase.apps.length ? firebase.app() : firebase.initializeApp(FB_CONFIG);
+      const db = firebase.database(app);
+      sync.ref = db.ref(FB_PATH);
+
+      db.ref('.info/connected').on('value', (snap) => {
+        const on = snap.val() === true;
+        paintSync(on ? 'on' : 'off',
+          on ? SYNC_ON : '연결 대기 중',
+          on ? '두 폰의 체크 상태를 함께 쓰고 있어요'
+             : '인터넷이 끊겨 있어요. 연결되면 자동으로 맞춰져요.');
+      });
+
+      let first = true;
+      sync.ref.on('value', (snap) => {
+        const val = snap.val();
+        const has = val && typeof val === 'object' && Object.keys(val).length > 0;
+        if (!has) {
+          // DB가 비어 있으면 이 기기에 쌓여 있던 체크를 올려 둬요
+          const mine = asMap(checks);
+          if (Object.keys(mine).length) sync.ref.set(mine).catch(() => {});
+          first = false;
+          paintSync('on', SYNC_ON, '두 폰의 체크 상태를 함께 쓰고 있어요');
+          return;
+        }
+        applyRemote(val, first);
+        first = false;
+        paintSync('on', SYNC_ON, '두 폰의 체크 상태를 함께 쓰고 있어요');
+      }, (err) => {
+        console.warn('[tosil] 동기화 읽기 실패', err && err.code);
+        paintSync('err', '동기화 끊김', '체크 상태를 불러오지 못했어요. 이 기기에만 저장돼요.');
+      });
+    } catch (e) {
+      console.warn('[tosil] 동기화 시작 실패', e);
+      paintSync('err', '동기화 끊김', '체크 상태는 이 기기에만 저장돼요.');
+    }
+  }
+
   /* ───────────────────────── 잠금 ───────────────────────── */
   let buf = '';
   const lockEl = $('#lock');
@@ -1235,9 +1290,11 @@
       const chk = e.target.closest('[data-check]');
       if (chk) {
         const id = chk.dataset.check;
-        if (checks[id]) delete checks[id];
-        else checks[id] = true;
+        const on = !checks[id];
+        if (on) checks[id] = true;
+        else delete checks[id];
         saveChecks();
+        pushCheck(id, on);
         renderShop();
         return;
       }
@@ -1250,6 +1307,7 @@
       if (box.checked) checks[id] = true;
       else delete checks[id];
       saveChecks();
+      pushCheck(id, box.checked);
       if (id.startsWith('t-')) renderTasks();
       if (id.startsWith('b-')) renderBag();
     });
@@ -1280,6 +1338,7 @@
     bindToTop();
 
     showTab(location.hash.replace('#', '') || 'photo', false, false);
+    initSync();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
