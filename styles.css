@@ -302,10 +302,15 @@ html.unlocked .lock{display:none}
 .filter-summary{font-size:11.5px;color:var(--muted);margin-bottom:12px}
 
 /* ───────── 용품 카드 ───────── */
-.grouphead{display:flex;align-items:baseline;gap:8px;margin:20px 0 2px}
+.grouphead{display:flex;align-items:baseline;gap:8px;margin:20px 0 2px;flex-wrap:wrap}
 .grouphead:first-child{margin-top:0}
 .grouphead h3{font-family:var(--serif);font-size:16px;font-weight:700;letter-spacing:-.02em}
 .grouphead span{font-size:11px;color:var(--muted)}
+@media (max-width:480px){
+  .grouphead{gap:2px 8px}
+  .grouphead h3{font-size:15px}
+  .grouphead span{font-size:10.5px}
+}
 .grouphead__hot{
   display:inline-block;margin-left:7px;padding:2px 7px;border-radius:6px;vertical-align:2px;
   background:#FBE4DE;color:#B33A28;font-family:var(--sans);font-size:9.5px;font-weight:800;letter-spacing:.06em;
