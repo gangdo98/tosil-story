@@ -15,7 +15,7 @@ try{if(localStorage.getItem('tosil.lock.v1')==='1'){document.documentElement.cla
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap">
-<link rel="stylesheet" href="styles.css?v=20261125c">
+<link rel="stylesheet" href="styles.css?v=20261125d">
 </head>
 <body>
 
@@ -110,16 +110,16 @@ try{if(localStorage.getItem('tosil.lock.v1')==='1'){document.documentElement.cla
         </div>
 
         <div class="notice">
-          <span class="notice__icon" aria-hidden="true">💌</span>
+          <span class="notice__icon" aria-hidden="true">🔒</span>
           <div>
-            <p class="notice__title">초음파 사진 보내는 법</p>
-            <p class="notice__body">사진에 찍힌 <b>이름 · 생년월일 · 병원명</b>을 가린 뒤 피클에게 보내 주세요. 바로 이 타임라인에 올려드릴게요.</p>
+            <p class="notice__title">개인정보는 지우고 올렸어요</p>
+            <p class="notice__body">초음파에 찍힌 <b>이름 · 생년월일 · 등록번호 · 병원명</b>은 잘라내고 사진만 남겼어요. 사진을 누르면 크게 볼 수 있어요.</p>
           </div>
         </div>
 
         <div class="album__head">
           <h3 class="h3">주수별 타임라인</h3>
-          <span class="count" id="photoCount">0장</span>
+          <span class="count" id="photoCount">4장</span>
         </div>
         <div class="album" id="album"></div>
 
@@ -136,7 +136,7 @@ try{if(localStorage.getItem('tosil.lock.v1')==='1'){document.documentElement.cla
       <div class="wrap">
         <div class="sec-head">
           <h2>살 것 · 출산·육아용품</h2>
-          <p>후쿠오카에서 사 올 것과 국내에서 채울 준비물을 한 번에. 준비한 것엔 체크를 해 두세요.</p>
+          <p>일본에서 사 올 것, 국내에서 채울 준비물, 회사 복지, 지인 리스트까지 한 번에. 준비한 것엔 체크를 해 두세요.</p>
         </div>
 
         <div class="filters">
@@ -166,21 +166,111 @@ try{if(localStorage.getItem('tosil.lock.v1')==='1'){document.documentElement.cla
       <div class="wrap">
         <div class="sec-head">
           <h2>병원 · 검진 기록</h2>
-          <p>주수별로 챙겨야 하는 검사와 다음 검진 메모.</p>
+          <p>다니는 병원과 산후조리원, 주수별로 챙겨야 하는 검사.</p>
         </div>
 
         <div class="card appointment" id="appointment">
           <div class="appointment__head">
             <span class="badge badge--mint">다음 검진</span>
-            <span class="appointment__state">아직 미정</span>
+            <span class="appointment__state">날짜 미정</span>
           </div>
           <p class="appointment__title">20주 정밀초음파</p>
-          <p class="appointment__sub">병원명과 예약일이 정해지면 아래 메모에 적어 두세요.</p>
+          <p class="appointment__sub">11월 말 ~ 12월 초. 일신기독병원에서 예약일이 정해지면 아래 메모에 적어 주세요.</p>
           <dl class="kv">
-            <div><dt>병원</dt><dd>미정</dd></div>
+            <div><dt>병원</dt><dd>일신기독병원 (IL SIN CHRISTIAN Hospital)</dd></div>
             <div><dt>예약일</dt><dd>미정 (11월 말 ~ 12월 초)</dd></div>
           </dl>
         </div>
+
+        <div class="sec-head sec-head--tight">
+          <h2>지금 다니는 병원</h2>
+          <p>초음파·검진을 받는 곳이에요.</p>
+        </div>
+        <div class="card hospital-now">
+          <div class="appointment__head">
+            <span class="badge badge--mint">검진 · 분만</span>
+            <span class="appointment__state is-set">확정</span>
+          </div>
+          <p class="appointment__title">일신기독병원</p>
+          <p class="appointment__sub">초음파 영상에 <b>IL SIN CHRISTIAN Hospital</b>로 찍혀 있어요. 검진·분만 모두 이 병원 기준으로 정리했어요.</p>
+          <dl class="kv">
+            <div><dt>위치</dt><dd>부산 동구 (범일동 생활권에서 가까워요)</dd></div>
+            <div><dt>검진</dt><dd>7주 4일(8/28) → 12주 1일(9/29) → 20주 1일(11/24) 초음파</dd></div>
+            <div><dt>다음</dt><dd>20주 정밀초음파 예약</dd></div>
+          </dl>
+        </div>
+
+        <div class="sec-head sec-head--tight">
+          <h2>산후조리원 · 루안느</h2>
+          <p>부산 서면. 2026년 8월 28일에 계약하고 예약금까지 결제했어요.</p>
+        </div>
+        <div class="card care">
+          <div class="appointment__head">
+            <span class="badge badge--peach">예약 완료</span>
+            <span class="appointment__state is-set">B 프레스티지 · 9박 10일</span>
+          </div>
+          <p class="appointment__title">루안느 산후조리원</p>
+          <p class="appointment__sub">부산 부산진구 서면로 32, 501호 (부전동) · ☎ 051-815-1004</p>
+          <dl class="kv">
+            <div><dt>입실</dt><dd>2027. 4. 12 출산 예정 기준 · 9박 10일</dd></div>
+            <div><dt>총액</dt><dd>3,850,000원</dd></div>
+            <div><dt>예약금</dt><dd>385,000원 결제 완료 (2026-08-28 14:11 · 김코디 · 신용카드 · 승인 94047290)</dd></div>
+            <div><dt>잔금</dt><dd>3,465,000원 → 이벤트 10만 원 할인 시 3,365,000원 (입실 당일 완납)</dd></div>
+            <div><dt>조식</dt><dd>챙김 (want +)</dd></div>
+            <div><dt>분만병원</dt><dd>계약서 표기 ‘문화(산입)’ — 지금 다니는 일신기독병원과 다르니 입실 전에 한 번 확인</dd></div>
+          </dl>
+          <p class="item__next"><b>1주 이상 입실 혜택</b> — B 프레스티지 룸은 <b>전신순환케어 75분 1회 무료</b>(메디스파 B 프레스티지 콤). 관리 비용은 모두 선불 결제예요.</p>
+        </div>
+
+        <div class="sec-head sec-head--tight">
+          <h2>취소 규정 · 입실 준비물</h2>
+          <p>계약서에 적힌 그대로예요.</p>
+        </div>
+        <div class="card caution">
+          <p class="caution__title">취소하면 예약금이 이렇게 깎여요</p>
+          <ul>
+            <li>분만예정일 31일 전까지 취소 → 예약금 전액 청구</li>
+            <li>21~30일 전 → 예약금의 60% 청구</li>
+            <li>10~20일 전 → 예약금의 30% 청구</li>
+            <li>1~9일 전 → 예약금 전액 반환 청구 안 함 (전액 몰수)</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3 class="h3">입실 준비물</h3>
+          <ul class="money__list" style="margin-top:9px">
+            <li>산모 오로패드 · 수유패드</li>
+            <li>아기 물티슈 2개 · 마스크</li>
+            <li>모유보관팩 · 텀블러</li>
+            <li>양말 · 손수건 · 개인 세면도구</li>
+          </ul>
+          <p class="source" style="margin-top:10px">입실 1일 전에 퇴원 시기를 꼭 알려달라고 안내돼 있어요 (☎ 051-815-1004).</p>
+        </div>
+
+        <div class="sec-head sec-head--tight">
+          <h2>메디스파 요금표</h2>
+          <p>루안느 안에 있는 관리실. 1회 / 10회 가격이에요.</p>
+        </div>
+        <div class="tablewrap">
+          <table class="table">
+            <caption class="sr-only">메디스파 요금표</caption>
+            <thead><tr><th>관리</th><th>1회</th><th>10회</th></tr></thead>
+            <tbody>
+              <tr><th>VIP 순환케어 100분</th><td>200,000</td><td>1,950,000</td></tr>
+              <tr><th>스페셜 순환케어 90분</th><td>150,000</td><td>1,450,000</td></tr>
+              <tr><th>전신 순환케어 60분</th><td>110,000</td><td>1,050,000</td></tr>
+              <tr><th>가슴케어 30분</th><td>70,000</td><td>650,000</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">할인가 기준. 정상가는 1회 121,000 / 165,000 / 220,000 / 77,000원. 1주 이상 입실 산모는 전신순환케어 1회 무료.</p>
+
+        <div class="sec-head sec-head--tight">
+          <h2>원본 보관함</h2>
+          <p>예약확인서·결제·요금표 원본이에요. 눌러서 크게 보세요.</p>
+        </div>
+        <div class="gal" id="careGallery"></div>
+        <p class="source">예약확인서에는 이름·생년월일·연락처가 그대로 찍혀 있어요. 원본 보관을 요청하셔서 그대로 올렸으니, 링크를 아는 사람은 볼 수 있다는 점만 기억해 주세요.</p>
 
         <div class="sec-head sec-head--tight">
           <h2>주수별 필수 검사</h2>
@@ -193,7 +283,7 @@ try{if(localStorage.getItem('tosil.lock.v1')==='1'){document.documentElement.cla
           <p>병원에서 들은 이야기, 다음 예약일, 결과 수치를 적어 두세요. 이 기기에만 저장돼요.</p>
         </div>
         <div class="memo">
-          <textarea id="memo" rows="6" placeholder="예) 11/28 정밀초음파 예약 · OO병원 3층&#10;예) 12/20 임당검사, 전날 밤 9시 이후 금식"></textarea>
+          <textarea id="memo" rows="6" placeholder="예) 11/28 정밀초음파 예약 · 일신기독병원 3층&#10;예) 12/20 임당검사, 전날 밤 9시 이후 금식"></textarea>
           <p class="memo__hint" id="memoHint">입력하면 자동으로 저장돼요.</p>
         </div>
       </div>
@@ -213,6 +303,39 @@ try{if(localStorage.getItem('tosil.lock.v1')==='1'){document.documentElement.cla
           <h2>받을 수 있는 지원</h2>
         </div>
         <div class="stack" id="moneyList"></div>
+
+        <div class="sec-head sec-head--tight">
+          <h2>회사 출산축하선물 (복지)</h2>
+          <p>토실이 엄마 회사 CV. 아래 5종 중 하나를 골라 신청해요.</p>
+        </div>
+        <div class="card company">
+          <div class="appointment__head">
+            <span class="badge badge--rose">복지 · 5종 중 택1</span>
+            <span class="appointment__state">출산 후 신청</span>
+          </div>
+          <p class="appointment__title">CV 출산축하선물</p>
+          <p class="appointment__sub">운영지원실 → 현신센터 소속. 출산서류(출산증명서)를 인사팀 담당자 메일로 보내면 신청해 줘요.</p>
+          <ul class="money__list" id="companyGifts"></ul>
+          <dl class="kv">
+            <div><dt>담당</dt><dd>김상훈 [인사경영지원팀] · 010-2789-9576 · ksh0328@cvpartners.co.kr</dd></div>
+            <div><dt>휴직</dt><dd>이승은 · 010-7544-4433 · l01160313@cvpartners.co.kr</dd></div>
+            <div><dt>신청</dt><dd>출산증명서 메일 제출 → 담당자가 신청 처리</dd></div>
+          </dl>
+          <p class="item__next"><b>2027. 4. 12</b> 캘린더에 신청 일정을 등록해 뒀어요.</p>
+        </div>
+
+        <div class="sec-head sec-head--tight">
+          <h2>조리원비 결제 순서</h2>
+          <p>이 순서를 지켜야 30만 원을 더 돌려받아요.</p>
+        </div>
+        <div class="card payorder">
+          <ol class="payorder__list">
+            <li><b>① 부산형 산후조리경비</b> 먼저 청구 — 조리원 몫은 최대 50만 원. 바우처 카드로 낸 금액은 지원 대상이 아니에요.</li>
+            <li><b>② 개인 카드로 200만 원</b> 결제 — 연말정산 의료비 세액공제 한도(출산 1회 200만 원 × 15% = 최대 30만 원).</li>
+            <li><b>③ 남은 금액은 첫만남이용권</b>으로 — 첫만남이용권으로 낸 금액은 세액공제가 안 돼요.</li>
+          </ol>
+          <p class="calc__note">세액공제는 결제한 사람 명의로만 적용돼요. 맞벌이라면 소득이 낮은 쪽 카드로 결제하는 게 유리해요. 조리원 잔금 3,465,000원(할인 시 3,365,000원) 기준으로 짜면 ② 200만 원 + ③ 나머지로 나눠 결제하면 돼요.</p>
+        </div>
 
         <div class="sec-head sec-head--tight">
           <h2>육아휴직 플랜</h2>
@@ -246,7 +369,7 @@ try{if(localStorage.getItem('tosil.lock.v1')==='1'){document.documentElement.cla
 
         <div class="card caution" id="leaveCaution"></div>
 
-        <p class="source">출처 · 보건복지부·복지로(첫만남이용권·부모급여·아동수당), 부산광역시·동구(출산지원금·부산형 산후조리비), 국민건강보험공단(임신·출산 진료비), 고용노동부(육아휴직 급여·배우자 출산전후휴가). 확인일 2026-11-25.</p>
+        <p class="source">출처 · 보건복지부·복지로(첫만남이용권·부모급여·아동수당), 부산광역시·동구보건소(출산지원금·부산형 산후조리경비), 국민건강보험공단(임신·출산 진료비), 고용노동부(육아휴직 급여·배우자 출산전후휴가), 한국전력(출산가구 전기요금 할인). 확인일 2026-11-25.</p>
       </div>
     </section>
 
@@ -301,6 +424,7 @@ try{if(localStorage.getItem('tosil.lock.v1')==='1'){document.documentElement.cla
 <button class="totop" id="toTop" type="button" aria-label="맨 위로">↑</button>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="app.js?v=20261125a"></script>
+<script src="friend-list.js?v=20261125a"></script>
+<script src="app.js?v=20261125c"></script>
 </body>
 </html>

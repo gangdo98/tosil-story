@@ -242,6 +242,23 @@ html.unlocked .lock{display:none}
   position:absolute;left:10px;top:-9px;padding:2px 8px;border-radius:999px;
   background:var(--mint-deep);color:#F4FBF7;font-size:9.5px;font-weight:700;letter-spacing:.04em;
 }
+/* ───────── 사진 앨범(실제 사진) ───────── */
+.shots{display:grid;gap:10px}
+@media (min-width:520px){.shots{grid-template-columns:1fr 1fr}}
+.shot{
+  margin:0;border-radius:16px;overflow:hidden;background:#0E1412;
+  border:1px solid var(--line);box-shadow:var(--shadow);
+}
+.shot.is-now{box-shadow:0 0 0 2px var(--mint-200),var(--shadow)}
+.shot img{width:100%;height:auto;display:block}
+.shot figcaption{padding:9px 12px 11px;background:var(--paper)}
+.shot figcaption b{display:block;font-size:12.5px;font-weight:700;letter-spacing:-.01em}
+.shot figcaption span{display:block;margin-top:2px;font-size:10.5px;color:var(--muted)}
+
+.note-row{display:flex;gap:12px;align-items:baseline;padding:12px 15px}
+.note-row__date{flex:none;font-size:10.5px;font-weight:700;color:var(--mint-deep);letter-spacing:.02em}
+.note-row__text{font-size:12.5px;line-height:1.6;color:var(--ink-soft)}
+
 .empty{
   border:1.5px dashed #E2D8C6;border-radius:16px;background:rgba(255,253,248,.6);
   padding:22px 16px;text-align:center;
@@ -265,6 +282,8 @@ html.unlocked .lock{display:none}
 }
 .fchip.is-on{background:var(--mint-deep);border-color:var(--mint-deep);color:#F4FBF7}
 .filter-row--status .fchip{font-size:11px;padding:6px 11px}
+.fchip--hot{color:#C0392B;border-color:#E7B3A8;background:#FFF6F3;font-weight:700}
+.fchip--hot.is-on{background:#C0392B;border-color:#C0392B;color:#FFF6F3}
 .filter-summary{font-size:11.5px;color:var(--muted);margin-bottom:12px}
 
 /* ───────── 용품 카드 ───────── */
@@ -272,6 +291,15 @@ html.unlocked .lock{display:none}
 .grouphead:first-child{margin-top:0}
 .grouphead h3{font-family:var(--serif);font-size:16px;font-weight:700;letter-spacing:-.02em}
 .grouphead span{font-size:11px;color:var(--muted)}
+.grouphead__hot{
+  display:inline-block;margin-left:7px;padding:2px 7px;border-radius:6px;vertical-align:2px;
+  background:#FBE4DE;color:#B33A28;font-family:var(--sans);font-size:9.5px;font-weight:800;letter-spacing:.06em;
+}
+.subhead{
+  margin:14px 0 2px;font-size:11px;font-weight:800;letter-spacing:.08em;color:#8A8377;
+  padding-left:2px;
+}
+.stack--compact{gap:8px}
 
 .item{
   position:relative;background:var(--paper);border:1px solid var(--line);
@@ -308,6 +336,12 @@ html.unlocked .lock{display:none}
 }
 .item__check:hover{border-color:var(--mint)}
 .item.is-checked .item__check{background:var(--mint);border-color:var(--mint);color:#fff}
+.item--compact{padding:12px 13px 11px;border-radius:16px;box-shadow:none}
+.item--compact .item__title{font-size:13px}
+.item--compact .item__meta{margin-top:6px;gap:5px}
+.item--compact .tag{font-size:10px;padding:2px 7px}
+.item--compact .item__notes{margin-top:7px}
+.item--compact .item__notes li{font-size:11.2px}
 
 /* ───────── 체크리스트 ───────── */
 .totalbar{
@@ -351,6 +385,28 @@ html.unlocked .lock{display:none}
 .appointment{background:linear-gradient(150deg,#F4FCF8,#FFFDF8);border-color:var(--mint-100)}
 .appointment__head{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .appointment__state{font-size:11px;font-weight:700;color:#B4803F;background:#FBF0D6;padding:3px 9px;border-radius:999px}
+.appointment__state.is-set{color:#1F6B57;background:var(--mint-100)}
+.hospital-now{background:linear-gradient(150deg,#F4FCF8,#FFFDF8);border-color:var(--mint-100)}
+.care{background:linear-gradient(150deg,#FFF9F3,#FFFDF8);border-color:#F7E4D3}
+
+/* ───────── 원본 갤러리 ───────── */
+.gal{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.gal__item{
+  display:block;border-radius:14px;overflow:hidden;background:var(--paper);
+  border:1px solid var(--line);box-shadow:var(--shadow);color:inherit;text-decoration:none;
+}
+.gal__item img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block}
+.gal__cap{display:block;padding:8px 10px 10px;font-size:10px;color:var(--muted);line-height:1.5}
+.gal__cap b{display:block;font-size:11.5px;color:var(--ink);font-weight:700;margin-bottom:1px}
+
+/* ───────── 결제 순서 ───────── */
+.payorder{background:linear-gradient(150deg,#F4FCF8,#FFFDF8);border-color:var(--mint-100)}
+.payorder__list{display:grid;gap:8px;counter-reset:po}
+.payorder__list li{
+  position:relative;padding:9px 11px;border-radius:12px;background:rgba(255,255,255,.72);
+  border:1px solid var(--line-soft);font-size:11.8px;line-height:1.62;color:var(--ink-soft);
+}
+.payorder__list li b{color:#1F6B57}
 .appointment__title{margin-top:11px;font-family:var(--serif);font-size:19px;font-weight:700;letter-spacing:-.03em}
 .appointment__sub{margin-top:4px;font-size:12px;color:var(--muted);line-height:1.6}
 .kv{margin-top:12px;display:grid;gap:6px;border-top:1px dashed var(--line);padding-top:11px}
@@ -398,6 +454,7 @@ html.unlocked .lock{display:none}
 .money__list li::before{content:"";position:absolute;left:2px;top:7px;width:3px;height:3px;border-radius:50%;background:#CFC4AE}
 .money__tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:11px}
 .money.is-na{opacity:.78}
+.company{background:linear-gradient(150deg,#FFF7F3,#FFFDF8);border-color:#F6DFD4}
 
 .leave-summary__grid{display:grid;gap:10px;margin-top:10px}
 @media (min-width:520px){.leave-summary__grid{grid-template-columns:1fr 1fr}}

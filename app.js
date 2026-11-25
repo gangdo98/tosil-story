@@ -128,8 +128,28 @@
   }
 
   /* ───────────────────────── 1. 사진 ───────────────────────── */
-  const ALBUM = [
-    { week: 12, label: '첫 만남' },
+  const PHOTOS = [
+    {
+      week: 7, day: 4, date: '2026. 8. 28', src: 'assets/ultra-20260828-07w4d.jpg',
+      title: '아기집 확인', note: '7주 4일 · 첫 초음파'
+    },
+    {
+      week: 12, day: 1, date: '2026. 9. 29', src: 'assets/ultra-20260929-12w1d-a.jpg',
+      title: '몸이 만들어지던 때', note: '12주 1일 · 입체초음파'
+    },
+    {
+      week: 12, day: 1, date: '2026. 9. 29', src: 'assets/ultra-20260929-12w1d-b.jpg',
+      title: '다른 각도로 한 장 더', note: '12주 1일 · 같은 날 두 번째 컷'
+    },
+    {
+      week: 20, day: 1, date: '2026. 11. 24', src: 'assets/ultra-20261124-20w1d.jpg',
+      title: '얼굴이 나왔어요', note: '20주 1일 · 옆얼굴 입체초음파'
+    }
+  ];
+
+  const MILESTONES = [
+    { week: 7, label: '첫 만남' },
+    { week: 12, label: '1차 검사' },
     { week: 16, label: '' },
     { week: 20, label: '정밀초음파' },
     { week: 24, label: '' },
@@ -139,31 +159,60 @@
     { week: 40, label: '만나요' }
   ];
 
+  const NOTES = [
+    { date: '2026. 8. 28', text: '7주 4일, 첫 초음파. 아기집이 보였어요.' },
+    { date: '2026. 9. 29', text: '12주 1일. 코와 입, 팔·다리 윤곽이 잡혔어요.' },
+    { date: '2026. 11. 24', text: '20주 1일. 옆얼굴이 나왔어요. 볼이 통통해졌어요.' },
+    { date: '2026. 11. 25', text: '루안느 산후조리원 B프레스티지 9박 10일 계약 확인.' }
+  ];
+
   function renderAlbum() {
     const host = $('#album');
     const now = CURRENT.week;
-    host.innerHTML = ALBUM.map((a) => {
-      const isNow = a.week === now;
+
+    host.innerHTML = MILESTONES.map((m) => {
+      const shots = PHOTOS.filter((p) => p.week === m.week);
+      const isNow = m.week === now;
+
+      if (shots.length) {
+        return `
+        <div class="album__row">
+          <p class="album__week">${m.week}주<small>${m.label || ''}</small></p>
+          <div class="shots">${shots.map((s) => `
+            <figure class="shot${isNow ? ' is-now' : ''}">
+              <a href="${s.src}" target="_blank" rel="noopener">
+                <img src="${s.src}" alt="${esc(s.title)} (${esc(s.date)})" loading="lazy">
+              </a>
+              <figcaption>
+                <b>${esc(s.title)}</b>
+                <span>${esc(s.date)} · ${esc(s.note)}</span>
+              </figcaption>
+            </figure>`).join('')}</div>
+        </div>`;
+      }
+
       return `
       <div class="album__row">
-        <p class="album__week">${a.week}주<small>${a.label || ''}</small></p>
+        <p class="album__week">${m.week}주<small>${m.label || ''}</small></p>
         <div class="frame${isNow ? ' is-now' : ''}">
           ${isNow ? '<span class="frame__tag">이번 주</span>' : ''}
           <div>
             <p class="frame__icon" aria-hidden="true">${isNow ? '📷' : '🖼️'}</p>
-            <p class="frame__text">${isNow ? '이번 주 초음파 사진을 기다리고 있어요' : '사진을 보내면 여기에 담겨요'}</p>
+            <p class="frame__text">${isNow ? '이번 주 초음파를 기다리고 있어요' : '사진을 보내면 여기에 담겨요'}</p>
           </div>
         </div>
       </div>`;
     }).join('');
 
-    $('#photoCount').textContent = '0장';
+    $('#photoCount').textContent = PHOTOS.length + '장';
 
     $('#growthNotes').innerHTML = `
-      <div class="empty">
-        <p class="empty__icon" aria-hidden="true">🌱</p>
-        <p class="empty__title">아직 기록이 없어요</p>
-        <p class="empty__body">초음파 사진과 한 줄을 피클에게 보내 주시면,<br>이 타임라인과 함께 차곡차곡 쌓아 둘게요.</p>
+      <div class="stack">
+        ${NOTES.map((n) => `
+          <div class="card note-row">
+            <p class="note-row__date">${esc(n.date)}</p>
+            <p class="note-row__text">${esc(n.text)}</p>
+          </div>`).join('')}
       </div>`;
   }
 
@@ -175,7 +224,8 @@
     { id: 'bath', label: '목욕·위생' },
     { id: 'cloth', label: '의류' },
     { id: 'mom', label: '산모' },
-    { id: 'etc', label: '기타' }
+    { id: 'etc', label: '기타' },
+    { id: 'jpbuy', label: '찌구매but일본구매', hot: true }
   ];
   const CAT_LABEL = Object.fromEntries(CATS.map((c) => [c.id, c.label]));
 
@@ -184,21 +234,33 @@
     consider: { label: '구매고려', cls: 'badge--grey' },
     danggeun: { label: '당근', cls: 'badge--sun' },
     gift: { label: '선물', cls: 'badge--rose' },
+    company: { label: '회사 복지', cls: 'badge--rose' },
+    ref: { label: '지인 참고', cls: 'badge--grey' },
     done: { label: '완료', cls: 'badge--done' }
   };
   const STATUS_FILTERS = [
     { id: 'all', label: '전체' },
     { id: 'reserved', label: '예약·진행중' },
     { id: 'consider', label: '구매고려' },
+    { id: 'company', label: '회사 복지' },
     { id: 'danggeun', label: '당근' },
     { id: 'gift', label: '선물' },
     { id: 'done', label: '완료' }
   ];
 
-  const FUKUOKA = [
+  const SHOP_GROUPS = [
+    { id: 'jpbuy', title: '찌구매but일본구매', sub: '후쿠오카 2027. 1. 7~10 · 1/8 아카짱혼포·블라썸39' },
+    { id: 'birth', title: '출산 직후 바로 쓸 3종', sub: '2027. 3. 20경 구매 · 캘린더에 등록' },
+    { id: 'essentials', title: '신생아 준비물', sub: '체크하면 완료로 바뀌어요' },
+    { id: 'company', title: '회사 출산축하선물 · 5종 중 1택', sub: 'CV 복지 · 출산 후 신청' },
+    { id: 'friend', title: '지인(홈런이) 리스트', sub: '2026. 11. 2 기준 · 참고용' }
+  ];
+
+  /* ── 일본에서 사 올 것 ── */
+  const JPBUY = [
     {
-      id: 'k-tripp', group: 'fukuoka', name: '스토케 트립트랩 5-in-1 뉴본 세트',
-      cat: 'sleep', status: 'reserved', price: '세전 ¥68,900',
+      id: 'k-tripp', cat: 'sleep', group: 'jpbuy', status: 'reserved',
+      name: '스토케 트립트랩 5-in-1 뉴본 세트', price: '세전 ¥68,900',
       tags: ['이와타야 블라썸39', '2027. 1. 8 방문'],
       notes: [
         '체어 34,300 + 트레이 8,400 + 뉴본세트 19,400 + 하네스 6,800 (베이비세트 무료)',
@@ -208,8 +270,8 @@
       next: '<b>12월 8일경</b> 매장 확인 메일이 와요 → 가격·조건 동의 회신 → 최종 확정까지 7~9일. 자동 접수 메일은 확정이 아니에요.'
     },
     {
-      id: 'k-bugaboo', group: 'fukuoka', name: '부가부 드래곤플라이 플러스 유모차',
-      cat: 'travel', status: 'reserved', price: '세전 ¥126,000',
+      id: 'k-bugaboo', cat: 'travel', group: 'jpbuy', status: 'reserved',
+      name: '부가부 드래곤플라이 플러스 유모차', price: '세전 ¥126,000',
       tags: ['본체 9.9kg', '5% 쿠폰 시 ¥119,700'],
       notes: [
         '베이스 111,200 + 캐노피 14,800 = 세전 126,000엔',
@@ -219,19 +281,20 @@
       next: '트립트랩과 같은 블라썸39 건으로 함께 확정돼요. 1/7 저녁 픽업이 안 되면 1/8 낮 12시 이전 방문.'
     },
     {
-      id: 'k-cybex', group: 'fukuoka', name: '싸이벡스 카시트 (+ 베이스)',
-      cat: 'travel', status: 'consider', price: '¥44,000 ~ ¥82,500(세후)',
-      tags: ['라라포트 3층', '아카짠혼포 · DADWAY 비교'],
+      id: 'k-cybex', cat: 'travel', group: 'jpbuy', status: 'consider',
+      name: '싸이벡스 카시트 (+ 베이스)', price: '¥44,000 ~ ¥82,500(세후)',
+      tags: ['라라포트 3층', '아카짱혼포 · DADWAY 비교'],
       notes: [
         '시로나 S ¥53,900 + 베이스S ¥35,200 / 시로나 Si 세트 세후 ¥82,500 (12.7kg)',
         '클라우드T i-Size ¥44,000 + 베이스 별도 — 신생아 인레이 포함 여부 확인',
-        '같은 층 DADWAY도 싸이벡스 취급. 백화점은 외국인에게 카시트 판매 불가'
+        '지인은 국내에서 시크 카시트(바구니카시트 포함) 89만 원에 샀어요 — 국내 구매도 비교해 볼 것',
+        '백화점은 외국인에게 카시트 판매 불가 · 같은 층 DADWAY도 싸이벡스 취급'
       ],
-      next: '베이스는 한국에서 따로 구하기 어려워요. <b>시로나 S + 베이스S</b> 조합과 클라우드T+베이스를 매장에서 무게·장착으로 비교.'
+      next: '<b>시로나 S + 베이스S</b> 조합과 클라우드T+베이스를 매장에서 무게·장착으로 비교. 국내 시크 89만 원과도 견줘 보세요.'
     },
     {
-      id: 'k-artipoppe', group: 'fukuoka', name: '아티포페 아기띠 (호텔 배송)',
-      cat: 'travel', status: 'reserved', price: '약 ¥51,300 ~ 52,200',
+      id: 'k-artipoppe', cat: 'travel', group: 'jpbuy', status: 'reserved',
+      name: '아티포페 아기띠 (호텔 배송)', price: '약 ¥51,300 ~ 52,200',
       tags: ['일 팔라조 수령', '추천 €50 할인'],
       notes: [
         '일 팔라조 프런트 수령 승낙 완료 (2026-11-25 · 예약번호 1801960216)',
@@ -239,63 +302,249 @@
         '배송 라벨에 DOWAN KANG + Jan 7, 2027 + 호텔 주소(3-13-1 Haruyoshi, Chuo-ku)'
       ],
       next: '12월 말~1월 1일경 주문. 네덜란드에서 3~5일(최대 7일) 걸려요. 체크인 때 프런트에서 받고 박스는 버려도 돼요.'
+    },
+    {
+      id: 'j-bottle', cat: 'feed', group: 'jpbuy', status: 'consider', status0: 1,
+      name: '젖병 2종류만 소량 (더블하트 · 피죤)', price: '국내 2개 40,000원 / 일본 ¥2,860~',
+      tags: ['아카짱혼포', '지인도 더블하트 160ml 2개'],
+      notes: [
+        '지인은 더블하트 160ml 2개를 베이비페어에서 40,000원, 닥터브라운 150ml 2개를 46,500원에 샀어요',
+        '일본 피죤 母乳実感 160ml ¥2,860 · 240ml ¥2,970 (PPSU는 ¥3,190·3,300)',
+        '아기마다 맞는 젖병이 달라 미리 많이 사지 말라는 게 지인 의견 — 2종류만'
+      ]
+    },
+    {
+      id: 'j-brush', cat: 'feed', group: 'jpbuy', status: 'consider',
+      name: '젖병 세척솔 · 젖병집게', price: '일본 ¥638~877',
+      tags: ['피죤', '지인 26,500원'],
+      notes: ['피죤 스펀지 브러쉬 ¥638 · 회전식 ¥877 · 젖병집게 포함 세트 ¥1,848', '스펀지보다 실리콘·교체형이 오래가요']
+    },
+    {
+      id: 'j-detergent', cat: 'feed', group: 'jpbuy', status: 'consider',
+      name: '젖병 세제', price: '일본 ¥822~1,427',
+      tags: ['피죤', '지인 9,000원'],
+      notes: ['피죤 哺乳びん洗い 800ml ¥1,042 · 泡スプレー ¥822 · 詰替 1.4L ¥1,427', '“아기” 이름 붙은 것보다 1종 세제면 충분하다는 의견도 있어요']
+    },
+    {
+      id: 'j-paci', cat: 'feed', group: 'jpbuy', status: 'consider',
+      name: '쪽쪽이', price: '지인 11,900원',
+      tags: ['모윰 · 피죤', '일본이 종류 많아요'],
+      notes: ['지인은 모윰 쪽쪽이 1개 11,900원', '아카짱혼포에 피죤·치코 쪽쪽이 종류가 많아요']
+    },
+    {
+      id: 'j-tub', cat: 'bath', group: 'jpbuy', status: 'consider',
+      name: '아기 욕조', price: '일본 ¥4,620~5,720',
+      tags: ['리첼', '지인 16,300원'],
+      notes: ['리첼 푸카푸카 베이비바스 ¥4,620 / 스텝업 ¥5,720', '목을 못 가누는 시기엔 바구니형이 안전해요. 크면 물만 많이 들어요']
+    },
+    {
+      id: 'j-thermo', cat: 'bath', group: 'jpbuy', status: 'consider',
+      name: '탕온계 (목욕물 온도계)', price: '지인은 사은품',
+      tags: ['아카짱혼포'],
+      notes: ['목욕물 온도를 눈으로 맞추기 어려워요. 38~40도 확인용']
+    },
+    {
+      id: 'j-nail', cat: 'bath', group: 'jpbuy', status: 'consider',
+      name: '피죤 신생아 손톱가위', price: '¥987',
+      tags: ['아카짱혼포 라라포트점'],
+      notes: ['지인은 베이비페어 사은품으로 받았어요']
+    },
+    {
+      id: 'j-cotton', cat: 'bath', group: 'jpbuy', status: 'consider',
+      name: '피죤 점착면봉', price: '¥308',
+      tags: ['아카짱혼포'],
+      notes: ['한 번 쓰고 버리는 소포장 · 코딱지 뺄 때']
+    },
+    {
+      id: 'j-nose', cat: 'bath', group: 'jpbuy', status: 'consider',
+      name: '피죤 슈폿 전동 콧물흡입기', price: '¥14,300',
+      tags: ['한정 베이지'],
+      notes: ['콧물이 굳기 전에 빼 주는 게 좋아요']
+    },
+    {
+      id: 'j-fever', cat: 'bath', group: 'jpbuy', status: 'consider',
+      name: '네츠사마 해열시트', price: '¥547',
+      tags: ['아카짱혼포'],
+      notes: ['한 봉만 사 두면 새벽에 급할 때 써요']
+    },
+    {
+      id: 'j-bib', cat: 'cloth', group: 'jpbuy', status: 'consider',
+      name: '베이비뵨 턱받이 2매', price: '¥2,970',
+      tags: ['아카짱혼포'],
+      notes: ['이유식 시작 전이지만 세트로 사면 싸요']
+    },
+    {
+      id: 'j-seatmat', cat: 'travel', group: 'jpbuy', status: 'consider',
+      name: '카시트 보호매트', price: '¥2,612',
+      tags: ['아카짱혼포'],
+      notes: ['카시트 아래 깔면 시트가 덜 젖어요']
+    },
+    {
+      id: 'j-spoon', cat: 'etc', group: 'jpbuy', status: 'consider',
+      name: '릿첼 온도감지 스푼', price: '¥2,310',
+      tags: ['이유식 시작할 때'],
+      notes: []
+    },
+    {
+      id: 'j-mesh', cat: 'etc', group: 'jpbuy', status: 'consider',
+      name: '앙젤레트 과즙망', price: '¥1,210',
+      tags: ['이유식 시작할 때'],
+      notes: []
+    },
+    {
+      id: 'j-teether', cat: 'etc', group: 'jpbuy', status: 'consider',
+      name: '에디슨 바나나 치발기', price: '¥748',
+      tags: ['지인은 치발기 추후 구입'],
+      notes: []
+    },
+    {
+      id: 'j-bath', cat: 'bath', group: 'jpbuy', status: 'consider',
+      name: '스키나베브 입욕제', price: '¥500대',
+      tags: ['아카짱혼포'],
+      notes: ['태열·건조할 때 목욕물에']
+    },
+    {
+      id: 'j-cloth', cat: 'cloth', group: 'jpbuy', status: 'consider',
+      name: '유니클로 아기 바디수트 (반팔 3 + 긴팔 1)', price: '지인 4개 34,600원',
+      tags: ['유니클로 라라포트점', '지인도 유니클로'],
+      notes: ['60사이즈 4개를 34,600원에 샀어요', '일본 유니클로가 한국보다 조금 싸고 사이즈가 다양해요']
+    },
+    {
+      id: 'j-diaper', cat: 'bath', group: 'jpbuy', status: 'consider',
+      name: '기저귀 소량 (무니 · 메리즈)', price: '한 팩만',
+      tags: ['아카짱혼포', '부피 커요'],
+      notes: ['지인은 “발진 없는 브랜드를 찾을 때까지 샘플로 소량씩”이라고 했어요', '일본 기저귀는 부피가 커서 한 팩만, 나머지는 국내에서']
     }
   ];
 
+  /* ── 출산 직후 바로 쓸 3종 ── */
+  const BIRTH3 = [
+    {
+      id: 'b3-bottle', cat: 'feed', group: 'birth', status: 'consider',
+      name: '헤겐 PPSU 애착 젖병 트윈 세트 4P', price: '출산 10일 전 구매',
+      tags: ['150ml 2P 화이트 / 240ml 2P 오번', '2027. 3. 20경'],
+      notes: [
+        '지인이 실제로 쓴 조합 — “아기마다 잘 맞는 젖병이 달라 미리 많이 사지 말라”는 후기',
+        '150ml 2P는 신생아, 240ml 2P는 수유량이 늘 때'
+      ]
+    },
+    {
+      id: 'b3-stocking', cat: 'mom', group: 'birth', status: 'consider',
+      name: '솔리디아 이태리 1등급 의료기기 압박스타킹', price: '94,250원',
+      tags: ['발등 덮고 무릎 위', 'ROSA / S', '2027. 3. 20경'],
+      notes: [
+        '제왕절개 후 바로 필요해요. 지인 추천 “무조건 발등 덮고 무릎 올라가는 걸로”',
+        '출산 직후 붓기·혈전 예방용이라 미리 사 두고 가방에 넣어 두세요'
+      ]
+    },
+    {
+      id: 'b3-belt', cat: 'mom', group: 'birth', status: 'consider',
+      name: 'Mom+ 제왕절개 복대 (이중 고정)', price: '출산 10일 전 구매',
+      tags: ['Formams by moms', '2027. 3. 20경'],
+      notes: [
+        '지인 후기 — “넓은 타입은 아니지만 이중으로 잡아주는 구조라 고정이 힘있게 잘 잡혀요”',
+        '병원에서 복대를 주는지 먼저 확인하고, 없으면 이걸로'
+      ]
+    }
+  ];
+
+  /* ── 회사 출산축하선물 ── */
+  const COMPANY = [
+    {
+      id: 'c-thermo', cat: 'bath', group: 'company', status: 'company',
+      name: '① 브라운 체온계 (IRT-6030)',
+      tags: ['5종 중 1택'],
+      notes: ['지인은 체온계를 96,900원에 따로 샀어요 — 이걸 받으면 안 사도 돼요', '귀 체온계 · 신생아부터']
+    },
+    {
+      id: 'c-pot', cat: 'feed', group: 'company', status: 'company',
+      name: '② 코넘 휴대용 분유포트 500ml',
+      tags: ['5종 중 1택'],
+      notes: ['지인은 분유포트를 83,600원에 따로 샀어요', '500ml는 소용량 — 새벽 수유 때 들고 따르기엔 대용량이 편하다는 의견도']
+    },
+    {
+      id: 'c-cushion', cat: 'feed', group: 'company', status: 'company',
+      name: '③ 제이앤제나 역류방지쿠션 23도 (오리지널 백수 화이트 + 뒷면순면)',
+      tags: ['5종 중 1택'],
+      notes: ['수유쿠션·역방쿠를 따로 안 사도 돼요', '각도가 높은 제품은 피하고 23도 정도가 안전해요']
+    },
+    {
+      id: 'c-bin', cat: 'bath', group: 'company', status: 'company',
+      name: '④ 매직캔 크롬히포 오토실링 휴지통 21L + 리필봉투 5매 (화이트)',
+      tags: ['5종 중 1택'],
+      notes: ['지인은 기저귀 쓰레기통을 34,800원에 샀어요', '기저귀·물티슈 같이 버리기 좋아요']
+    },
+    {
+      id: 'c-chair', cat: 'sleep', group: 'company', status: 'company',
+      name: '⑤ 본베베 범보의자 (크림바닐라)',
+      tags: ['5종 중 1택'],
+      notes: ['이유식 시작할 때(생후 5~6개월) 쓰는 낮은 의자', '지인은 하이체어(트램트립)를 846,100원에 따로 샀어요']
+    }
+  ];
+
+  /* ── 신생아 준비물 ── */
   const ESSENTIALS = [
     /* 수유 */
-    { id: 'e-bottle', name: '젖병 160ml·240ml 각 2개 (더블하트)', cat: 'feed', note: '온라인 면세점에서 사면 조금 싸요' },
-    { id: 'e-steril', name: '젖병 소독기 (또는 열탕·전자레인지 소독 용기)', cat: 'feed' },
-    { id: 'e-formula', name: '분유 1통', cat: 'feed', note: '병원에서 쓰는 브랜드로 소량만' },
-    { id: 'e-cushion', name: '수유쿠션', cat: 'feed', note: '팔이 덜 아프고 자세가 편해져요' },
-    { id: 'e-pump', name: '유축기 (전동)', cat: 'feed', note: '출산 후 필요해지면 사도 늦지 않아요' },
+    { id: 'e-steril', name: '젖병 소독기 (열탕 또는 전자레인지)', cat: 'feed', note: '지인은 브레짜 열탕 소독기 109,000원 + UV 픽셀 사은품' },
+    { id: 'e-formula', name: '분유 1통', cat: 'feed', note: '조리원에서 쓰는 브랜드로 소량만' },
+    { id: 'e-pump', name: '유축기 (전동)', cat: 'feed', note: '필요해지면 사거나 대여해도 늦지 않아요' },
     { id: 'e-bra', name: '수유브라 2~3개 · 수유패드', cat: 'feed' },
     /* 수면·가구 */
     { id: 'e-bed', name: '아기 침대 (또는 범퍼침대)', cat: 'sleep', note: '조리원에서 돌아오는 4월 중순까지 세팅' },
-    { id: 'e-swaddle', name: '속싸개 3~4장', cat: 'sleep' },
+    { id: 'e-swaddle', name: '속싸개 3~4장', cat: 'sleep', note: '지인은 스와들업·스와들수트로 대체했어요' },
     { id: 'e-sleepbag', name: '슬리핑백 (봄·여름 대비)', cat: 'sleep' },
     { id: 'e-blanket', name: '아기 이불 · 요 세트', cat: 'sleep' },
     { id: 'e-mat', name: '놀이 매트', cat: 'sleep', note: '뒤집기 시작하면 필요해져요' },
+    { id: 'e-rug', name: '원형 러그', cat: 'sleep', note: '낮잠·터미타임 자리를 따로 만들어요' },
     /* 목욕·위생 */
-    { id: 'e-tub', name: '아기 욕조 (+ 목욕 의자)', cat: 'bath' },
-    { id: 'e-nail', name: '피죤 신생아 손톱가위 ¥987', cat: 'bath', note: '아카짠혼포 라라포트점' },
-    { id: 'e-nose', name: '피죤 슈폿 전동 콧물흡입기 ¥14,300', cat: 'bath', note: '한정 베이지 색상' },
-    { id: 'e-thermo', name: '체온계', cat: 'bath' },
-    { id: 'e-fever', name: '네츠사마 해열시트 ¥547', cat: 'bath' },
-    { id: 'e-cotton', name: '피죤 점착면봉 ¥308', cat: 'bath' },
-    { id: 'e-detergent', name: '아기 세제 · 세정제', cat: 'bath', note: '액체류는 위탁수하물로' },
+    { id: 'e-tubclean', name: '아기 욕조 세정제 · 토이클리너', cat: 'bath' },
+    { id: 'e-detergent', name: '아기 세제 · 섬유유연제', cat: 'bath', note: '액체류는 위탁수하물로' },
     { id: 'e-diaper', name: '기저귀 신생아 1팩 · 물티슈', cat: 'bath', note: '선물로 들어오는 경우가 많아 소량만' },
-    { id: 'e-towel', name: '아기 수건 (밤부베베)', cat: 'bath', note: '온라인 면세점 주문' },
+    { id: 'e-towel', name: '아기 수건 (밤부베베)', cat: 'bath', note: '지인은 거즈 20장 + 엠보 6장' },
+    { id: 'e-lotion', name: '로션 · 수딩젤 · 발진크림', cat: 'bath', note: '샘플로 먼저 써 보고 맞는 걸로' },
     /* 의류 */
     { id: 'e-bae', name: '배냇저고리 5장 이상', cat: 'cloth' },
     { id: 'e-naebok', name: '내복(우주복) 5장', cat: 'cloth' },
     { id: 'e-socks', name: '양말 · 손싸개', cat: 'cloth' },
-    { id: 'e-bib', name: '베이비뵨 턱받이 2매 ¥2,970', cat: 'cloth', note: '아카짠혼포' },
-    { id: 'e-out', name: '외출복 2벌 (봄)', cat: 'cloth', note: '유니클로 라라포트점 아기옷' },
-    { id: 'e-hat', name: '모자 · 겉싸개', cat: 'cloth' },
+    { id: 'e-hat', name: '모자 · 겉싸개', cat: 'cloth', note: '지인은 속싸개·겉싸개를 천기저귀로 대체' },
+    { id: 'e-out', name: '외출복 2벌 (봄)', cat: 'cloth' },
     /* 외출·이동 */
     { id: 'e-bagd', name: '기저귀가방', cat: 'travel' },
-    { id: 'e-seatmat', name: '카시트 보호매트 ¥2,612', cat: 'travel', note: '아카짠혼포' },
     { id: 'e-liner', name: '유모차 시트 라이너 (선택)', cat: 'travel' },
     { id: 'e-sanitizer', name: '손소독제 · 물티슈 캡', cat: 'travel' },
     /* 산모 */
-    { id: 'm-pad', name: '산모패드 (대형)', cat: 'mom' },
+    { id: 'm-pad', name: '산모패드 (대형)', cat: 'mom', note: '지인은 디펜드 안심깔개매트 + 입는 오버나이트' },
     { id: 'm-cool', name: '회음부 냉찜질 패드', cat: 'mom' },
     { id: 'm-bra', name: '수유브라 여유분', cat: 'mom' },
-    { id: 'm-belt', name: '산후복대', cat: 'mom', note: '병원 지시가 있을 때만' },
-    { id: 'm-pajama', name: '넉넉한 파자마 2벌', cat: 'mom' },
+    { id: 'm-pajama', name: '넉넉한 파자마 2벌', cat: 'mom', note: '지인은 수유잠옷 2벌 65,600원' },
     { id: 'm-care', name: '산모 스킨케어 · 세면도구', cat: 'mom' },
+    { id: 'm-socks', name: '무압박 양말', cat: 'mom', note: '지인은 6개 6,640원' },
+    { id: 'm-cream', name: '유두보호크림 · 양배추팩', cat: 'mom', note: '지인은 란시노 17,900원 + 튼튼맘스 17,500원' },
     /* 기타 */
     { id: 'e-towel2', name: '목욕 타월 2장', cat: 'etc' },
-    { id: 'e-spoon', name: '릿첼 온도감지 스푼 ¥2,310', cat: 'etc', note: '이유식 시작할 때' },
-    { id: 'e-mesh', name: '앙젤레트 과즙망 ¥1,210', cat: 'etc' },
-    { id: 'e-teether', name: '에디슨 바나나 치발기 ¥748', cat: 'etc' },
+    { id: 'e-humid', name: '가열식 가습기', cat: 'etc', note: '보일러 쓸 때 공기까지 따뜻해져요' },
+    { id: 'e-thermohygro', name: '온습도계', cat: 'etc', note: '싼 것보다 정확한 걸로 (지인은 달랑하니 2개)' },
+    { id: 'e-noise', name: '백색소음기 (수유등 겸용)', cat: 'etc' },
     { id: 'e-tooth', name: 'HAMICO 칫솔', cat: 'etc' },
-    { id: 'e-bath', name: '스키나베브 입욕제', cat: 'etc' },
-    { id: 'e-paci', name: '쪽쪽이 · 미피 스트랩 (피죤·NUK)', cat: 'etc' }
+    { id: 'e-guard', name: '콘센트 안전커버 · 모서리 보호대', cat: 'etc', note: '기어다니기 전에 미리' }
   ].map((x) => ({ ...x, group: 'essentials', status: 'consider', tags: [] }));
 
-  const SHOP_ITEMS = [...FUKUOKA, ...ESSENTIALS];
+  /* ── 지인 리스트 ── */
+  const FRIEND = (window.FRIEND_ITEMS || [])
+    .filter((x) => !x.j)
+    .map((x, i) => ({
+      id: 'f' + i,
+      group: 'friend',
+      cat: x.c || 'etc',
+      status: 'ref',
+      name: x.n,
+      sec: x.sec,
+      price: x.p ? x.p.toLocaleString('ko-KR') + '원' : '',
+      tags: [x.b, x.q, x.s].filter(Boolean),
+      note: x.m || ''
+    }));
+
+  const SHOP_ITEMS = [...JPBUY, ...BIRTH3, ...ESSENTIALS, ...COMPANY, ...FRIEND];
   const shopState = { cat: 'all', status: 'all' };
 
   const effStatus = (it) => (checks[it.id] ? 'done' : it.status);
@@ -303,14 +552,15 @@
   function shopCard(it) {
     const st = STATUS[effStatus(it)] || STATUS.consider;
     const done = !!checks[it.id];
+    const compact = it.group === 'friend';
     return `
-      <article class="item${done ? ' is-checked' : ''}" data-item="${it.id}">
+      <article class="item${done ? ' is-checked' : ''}${compact ? ' item--compact' : ''}" data-item="${it.id}">
         <div class="item__head">
           <div>
             <h4 class="item__title">${esc(it.name)}</h4>
             <div class="item__meta">
               <span class="badge ${st.cls}">${st.label}</span>
-              <span class="tag">${CAT_LABEL[it.cat] || '기타'}</span>
+              ${compact ? '' : `<span class="tag">${CAT_LABEL[it.cat] || '기타'}</span>`}
               ${it.price ? `<span class="tag tag--price">${esc(it.price)}</span>` : ''}
               ${(it.tags || []).map((t) => `<span class="tag">${esc(t)}</span>`).join('')}
             </div>
@@ -329,7 +579,7 @@
     const stHost = $('#statusFilters');
 
     catHost.innerHTML = [{ id: 'all', label: '전체' }, ...CATS]
-      .map((c) => `<button class="fchip${shopState.cat === c.id ? ' is-on' : ''}" type="button" data-cat="${c.id}">${c.label}</button>`)
+      .map((c) => `<button class="fchip${shopState.cat === c.id ? ' is-on' : ''}${c.hot ? ' fchip--hot' : ''}" type="button" data-cat="${c.id}">${c.label}</button>`)
       .join('');
     stHost.innerHTML = STATUS_FILTERS
       .map((s) => `<button class="fchip${shopState.status === s.id ? ' is-on' : ''}" type="button" data-status="${s.id}">${s.label}</button>`)
@@ -352,17 +602,31 @@
       return;
     }
 
-    const groups = [
-      { id: 'fukuoka', title: '후쿠오카에서 사 올 것', sub: '2027. 1. 7 ~ 10' },
-      { id: 'essentials', title: '신생아 준비물', sub: '체크하면 완료로 바뀌어요' }
-    ];
-
-    $('#shopList').innerHTML = groups.map((g) => {
+    $('#shopList').innerHTML = SHOP_GROUPS.map((g) => {
       const list = filtered.filter((it) => it.group === g.id);
       if (!list.length) return '';
+
+      let inner = '';
+      if (g.id === 'friend') {
+        let sec = null;
+        let buf = [];
+        const flush = () => {
+          if (!buf.length) return;
+          inner += `<p class="subhead">${esc(sec || '기타')}</p><div class="stack stack--compact">${buf.join('')}</div>`;
+          buf = [];
+        };
+        list.forEach((it) => {
+          if (it.sec !== sec) { flush(); sec = it.sec; }
+          buf.push(shopCard(it));
+        });
+        flush();
+      } else {
+        inner = `<div class="stack">${list.map(shopCard).join('')}</div>`;
+      }
+
       return `
-        <div class="grouphead"><h3>${g.title}</h3><span>${list.length}개 · ${g.sub}</span></div>
-        <div class="stack">${list.map(shopCard).join('')}</div>`;
+        <div class="grouphead"><h3>${g.title}${g.id === 'jpbuy' ? '<span class="grouphead__hot">일본</span>' : ''}</h3><span>${list.length}개 · ${g.sub}</span></div>
+        ${inner}`;
     }).join('');
   }
 
@@ -370,12 +634,17 @@
   const TASK_STAGES = [
     {
       id: 'mid', title: '임신 중기', sub: '20~27주 · 2026.11 ~ 2027.01', items: [
-        { id: 't-ultra20', text: '20주 정밀초음파', note: '11월 말~12월 초 · 장기·얼굴·태반 위치까지 확인' },
+        { id: 't-card', text: '국민행복카드 미리 발급', note: '조리원 입소 전에 카드가 있어야 첫만남이용권을 바로 써요' },
+        { id: 't-ultra20', text: '20주 정밀초음파 예약 (일신기독병원)', note: '11월 말~12월 초 · 장기·얼굴·태반 위치까지' },
         { id: 't-sugar', text: '임당검사 예약 (24~28주)', note: '12월 중순~1월 초, 금식 안내 확인' },
-        { id: 't-care', text: '산후조리원 후보 2~3곳 비교', note: '범일동·연산동 거리, 4월 예약 현황' },
-        { id: 't-helper', text: '산후도우미 신청 가능 여부 확인', note: '보건소 문의 · 소득 기준 있음' },
+        { id: 't-care', text: '조리원 잔금 결제 순서 정리', note: '루안느 B프레스티지 9박10일 · 잔금 3,465,000원(할인 시 3,365,000원)' },
+        { id: 't-helper', text: '산후도우미 신청 가능 여부 확인', note: '중위소득 150% 이하 전국 공통 · 인기 관리사는 일찍 마감' },
+        { id: 't-fetus', text: '태아보험 22주 마감선 확인', note: '이미 20주 — 저체중아·선천성 특약은 22주 전에 결정' },
+        { id: 't-post', text: '우체국 태아보험·자동차보험 태아 특약 확인', note: '임신확인서 제출 · 보험사마다 할인율이 달라요' },
+        { id: 't-ob', text: '임신부 외래진료비 20% 감면 적용', note: '진료받을 때 “임산부입니다” 말하면 본인부담 20% 감면' },
         { id: 't-tdap', text: '백일해(Tdap) 접종', note: '임신 27~36주 권장 — 12월 중 예약' },
         { id: 't-flu', text: '독감 예방접종 여부 확인', note: '임신 중 접종 권장' },
+        { id: 't-park', text: '임산부 배지 · 주차증 신청 (동구보건소)', note: '정부24 맘편한임신으로 한 번에' },
         { id: 't-fukuoka', text: '1/7~10 후쿠오카 쇼핑 동선 확정', note: '블라썸39 픽업 → 라라포트 → 아티포페 수령' },
         { id: 't-flight', text: '진에어 임신부 탑승 조건 확인', note: '주수별 탑승 제한·서류 필요 여부' },
         { id: 't-work', text: '회사에 휴직 계획 공유', note: '배우자 출산전후휴가 20일 + 육아휴직 3개월' }
@@ -387,16 +656,19 @@
         { id: 't-grow', text: '32~34주 성장초음파', note: '아기 몸무게·양수·태반 위치' },
         { id: 't-nest', text: '아기방 · 침대 배치, 세탁·소독', note: '속싸개·내복은 미리 한 번 빨아 두기' },
         { id: 't-assemble', text: '유모차 · 카시트 · 트립트랩 조립 테스트', note: '박스는 버리지 말고 한 번 펼쳐 보기' },
-        { id: 't-care2', text: '산후조리원 최종 예약 · 계약금', note: '입소일·퇴소일 확정' },
+        { id: 't-care2', text: '조리원 입실일 · 퇴소일 확정', note: '출산 일정이 정해지면 루안느(051-815-1004)로 연락' },
+        { id: 't-ktx', text: '맘편한 KTX·SRT 임산부 할인 등록', note: 'KTX 일반실 40% · 특실 요금 면제 (출산예정일 +1년까지)' },
         { id: 't-leave1', text: '명주님 육아휴직 신청서 제출', note: '기본 1년 먼저 신청' },
         { id: 't-insur', text: '아기 건강보험·태아보험 정리', note: '출생신고 때 건강보험 피부양자 등록' }
       ]
     },
     {
       id: 'final', title: '막달', sub: '37~40주 · 2027.03 ~ 2027.04', items: [
+        { id: 't-buy3', text: '출산 직후 필수 3종 구매 (3월 20일경)', note: '헤겐 젖병 트윈세트 · 솔리디아 압박스타킹 · Mom+ 복대 → 3/20 캘린더' },
         { id: 't-nst', text: '35~37주 막달검사 · 태동검사', note: '분만 준비 상태 확인' },
         { id: 't-bag', text: '출산 가방 차에 실어 두기', note: '가방 탭 체크리스트로 최종 확인' },
-        { id: 't-route', text: '병원 가는 길 · 새벽 교통 확인', note: '택시 호출 앱·주차 위치까지' },
+        { id: 't-settle', text: '조리원 잔금 결제 (순서대로)', note: '부산형 산후조리비 → 개인카드 200만 원 → 남은 금액 첫만남이용권' },
+        { id: 't-route', text: '병원 가는 길 · 새벽 교통 확인', note: '일신기독병원까지 택시 호출 앱·주차 위치까지' },
         { id: 't-name', text: '이름 최종 결정', note: '출생신고 전에 둘이서 하나로' },
         { id: 't-docs', text: '출생신고 서류 준비', note: '신분증·가족관계증명서·출생신고서' },
         { id: 't-contact', text: '가족·지인 연락 순서 정하기', note: '양가 부모님께 알릴 순서' }
@@ -404,10 +676,13 @@
     },
     {
       id: 'after', title: '출산 직후', sub: '2027.04 ~', items: [
-        { id: 't-birth', text: '출생신고', note: '출생 1개월 안 · 병원에서 서류 받아 가기' },
-        { id: 't-voucher', text: '첫만남이용권 신청', note: '출생신고 때 행복출산으로 한 번에' },
+        { id: 't-birth', text: '출생신고 + 행복출산 원스톱 신청', note: '출생 1개월 안 · 주민센터 방문이 제일 빨라요' },
+        { id: 't-voucher', text: '첫만남이용권 신청', note: '원스톱으로 한 번에 · 출생일부터 2년 안에 사용' },
         { id: 't-parent', text: '부모급여 · 아동수당 신청', note: '출생일 포함 60일 안에 → 출생월부터 소급' },
-        { id: 't-busan', text: '부산형 산후조리비 신청', note: '출생 6개월 안에 사용, 1년 안에 보건소·정부24' },
+        { id: 't-elec', text: '전기요금 할인 신청', note: '행복출산 원스톱 때 같이 · 아파트는 관리사무소에도 통보' },
+        { id: 't-gift', text: '회사 출산축하선물 신청 (4/12)', note: '출산증명서 → ksh0328@cvpartners.co.kr · 김상훈 010-2789-9576' },
+        { id: 't-alarm', text: '출산 후 2·5·7·10일 알림 챙기기', note: '태어났다고 알리면 2·5·7·10일 뒤 알림을 추가' },
+        { id: 't-busan', text: '부산형 산후조리비 신청', note: '출생 6개월 안에 쓰고, 1년 안에 보건소·정부24' },
         { id: 't-care3', text: '산모·신생아 건강관리 서비스 신청', note: '퇴원 후 바로 시작하려면 미리 신청' },
         { id: 't-dadleave', text: '배우자 출산전후휴가 20일 사용', note: '출생일부터 120일 안에 모두' },
         { id: 't-leave2', text: '명주님 6개월 유급 연장 신청', note: '도완 1차 3개월 완료 증빙 첨부' }
@@ -476,7 +751,20 @@
     }
   ];
 
+  const CARE_DOCS = [
+    { src: 'assets/luanne-contract.jpg', title: '예약확인서 원본', sub: '2026. 8. 28 · 루안느 산후조리원' },
+    { src: 'assets/luanne-payment.jpg', title: '예약금 결제완료', sub: '385,000원 · 김코디 · 신용카드' },
+    { src: 'assets/medi-spa-free.jpg', title: '메디스파 무료 혜택', sub: '룸 타입별 1회 무료 서비스' },
+    { src: 'assets/medi-spa-price.jpg', title: '메디스파 요금표', sub: '1회 / 10회 가격' }
+  ];
+
   function renderHospital() {
+    $('#careGallery').innerHTML = CARE_DOCS.map((d) => `
+      <a class="gal__item" href="${d.src}" target="_blank" rel="noopener">
+        <img src="${d.src}" alt="${esc(d.title)}" loading="lazy">
+        <span class="gal__cap"><b>${esc(d.title)}</b>${esc(d.sub)}</span>
+      </a>`).join('');
+
     $('#exams').innerHTML = EXAMS.map((e) => `
       <article class="card exam">
         <div class="exam__week">${e.week}<small>주</small></div>
@@ -508,31 +796,49 @@
       title: '첫만남이용권', amount: '200만 원', sub: '한 번에 · 국민행복카드 포인트',
       body: '출생신고 때 행복출산으로 한 번에 신청할 수 있어요. 첫째 200만 원, 둘째부터 300만 원.',
       list: ['출생일부터 2년 안에 써야 하고, 남은 금액은 사라져요', '유흥·사행업종만 빼고 온라인 결제도 돼요'],
-      tags: ['소득기준 없음', '가족 100만 원 미만은 아동 명의 계좌로']
+      tags: ['소득기준 없음']
     },
     {
       title: '부모급여', amount: '월 100만 → 50만 원', sub: '만 2세 미만 · 24개월 1,800만 원',
       body: '0~11개월은 월 100만 원, 12~23개월은 월 50만 원. 매월 25일에 들어와요.',
-      list: ['어린이집을 다니면 보육료를 먼저 쓰고 차액만 현금으로 (0세 41만 6천 원)', '출생일 포함 60일 안에 신청하면 출생한 달부터 소급'],
+      list: ['어린이집을 다니면 보육료를 먼저 쓰고 차액만 현금으로 (2026년 기준 0세 41만 6천 원)', '출생일 포함 60일 안에 신청하면 출생한 달부터 소급'],
       tags: ['소득기준 없음', '아동수당과 함께 받아요']
     },
     {
       title: '아동수당', amount: '월 10만 5천 원', sub: '부산은 비수도권 +5천 원',
       body: '2026년 기준 9세 미만 아동에게 매월 25일 지급해요. 아동수당과 부모급여는 따로 들어와요.',
       list: ['지급 연령이 2030년까지 13세 미만으로 한 살씩 올라가요', '인구감소지역은 더 높지만 부산 동구는 해당 없음'],
-      tags: ['소득기준 없음', '보육료·양육수당과 별개']
+      tags: ['소득기준 없음', '9세까지 받으면 1,080만 원']
     },
     {
-      title: '부산형 산후조리비', amount: '최대 100만 원', sub: '쓴 만큼 돌려받는 방식',
-      body: '산후조리원·산모신생아 건강관리 본인부담·퇴원 후 진료비를 영수증으로 정산해요.',
-      list: ['산후조리원 최대 50만 / 건강관리 본인부담 90% / 병·의원 진료비(한방 포함)', '출생 후 6개월 안에 쓰고, 1년 안에 신청 (정부24·행복출산 또는 보건소)', '바우처 카드로 결제한 금액은 제외돼요'],
-      tags: ['2026.1.1 이후 출생아', '쌍둥이 200만 원']
+      title: '전기요금 할인', amount: '전기료 30%', sub: '생후 36개월 미만 가구 · 월 최대 1만 6천 원',
+      body: '주민센터에서 행복출산 원스톱 신청할 때 “전기요금 할인도 같이” 말하면 한 번에 돼요.',
+      list: ['3년 합산 57만 6천 원', '아파트는 관리사무소에도 따로 알려야 적용돼요', '누락되면 한전ON 또는 ☎123'],
+      tags: ['소득기준 없음']
+    },
+    {
+      title: '부산형 산후조리경비', amount: '최대 100만 원', sub: '산후조리원 몫은 50만 원까지',
+      body: '산후조리원·산모신생아 건강관리 본인부담·퇴원 후 진료비를 영수증으로 정산해요. 지원금은 산모 계좌로 들어와요.',
+      list: ['산후조리원 최대 50만 / 건강관리 본인부담 90% / 병·의원 진료비(한방 포함) — 합산 100만', '출생 후 6개월 안에 쓰고, 출생일 다음 날부터 1년 안에 신청 (정부24·보건소)', '바우처 카드로 결제한 금액은 제외돼요'],
+      tags: ['동구보건소 051-440-6564', '쌍둥이 200만 원']
     },
     {
       title: '임신·출산 진료비', amount: '100만 원', sub: '국민행복카드 이용권',
       body: '임신 1회당 단태아 100만 원(다태아 140만 원). 병·의원과 약국 본인부담 결제에 써요.',
       list: ['분만예정일부터 2년까지 사용', '산부인과에서 신청서를 받아 카드사·공단·정부24에서 신청', '이미 신청했는지 한 번 확인해 보세요'],
       tags: ['소득기준 없음']
+    },
+    {
+      title: '가정양육수당', amount: '월 10만 원', sub: '24~86개월 · 어린이집 안 다닐 때',
+      body: '어린이집·유치원을 이용하지 않는 아동에게 지급해요. 부모급여가 끝난 뒤 구간이에요.',
+      list: ['24~86개월 월 10만 원', '보육료·유아학비와 중복은 안 돼요'],
+      tags: ['소득기준 없음']
+    },
+    {
+      title: '부산형 365 시간제어린이집 · 가족사랑카드', amount: '시간당 1,000원', sub: '부산에서만 받는 것',
+      body: '평일 저녁 6시~자정, 주말·공휴일 9시~18시 시간당 1,000원(원래 4,000원). 2026년 4월 기준 13곳.',
+      list: ['가족사랑카드: 2자녀 이상 공영주차·시설 할인, 3자녀 이상 도시철도 50%'],
+      tags: ['부산시', '첫째는 가족사랑카드 대상 아님']
     },
     {
       title: '배우자 출산전후휴가', amount: '20일 유급', sub: '도완 님 몫',
@@ -548,10 +854,18 @@
     },
     {
       title: '동구 출산축하금', amount: '둘째 20만 원', sub: '셋째부터 200만 원', na: true,
-      body: '동구에 주민등록을 두고 실제 거주하는 둘째 이후 가정에 지급해요. 첫째는 대상이 아니에요.',
+      body: '동구에 주민등록을 두고 실제 거주하는 둘째 이후 가정에 지급해요. 첫째는 구 자체 지원이 0원이에요.',
       list: ['셋째부터는 20만 원씩 10회로 나눠 들어와요', '출생일부터 3개월 안에 동 행정복지센터'],
       tags: ['첫째 해당 없음']
     }
+  ];
+
+  const COMPANY_GIFTS = [
+    '① 브라운 체온계 (IRT-6030)',
+    '② 코넘 휴대용 분유포트 500ml',
+    '③ 제이앤제나 역류방지쿠션 23도 (오리지널 백수 화이트 + 뒷면순면)',
+    '④ 매직캔 크롬히포 오토실링 휴지통 21L + 리필봉투 5매 (화이트)',
+    '⑤ 본베베 범보의자 (크림바닐라)'
   ];
 
   function renderMoney() {
@@ -560,8 +874,10 @@
       <p class="total__v">약 2,252만 원</p>
       <p class="total__l">첫만남이용권 200만 + 부모급여 1,800만 + 아동수당 252만(월 10만 5천 × 24개월)</p>
       <div class="total__chips">
-        <span>+ 부산형 산후조리비 최대 100만</span>
+        <span>+ 부산형 산후조리경비 최대 100만</span>
         <span>+ 진료비 바우처 100만</span>
+        <span>+ 전기요금 할인 57만</span>
+        <span>+ 회사 출산축하선물</span>
       </div>`;
 
     $('#moneyList').innerHTML = MONEY.map((m) => `
@@ -575,6 +891,8 @@
         ${m.list && m.list.length ? `<ul class="money__list">${m.list.map((l) => `<li>${l}</li>`).join('')}</ul>` : ''}
         <div class="money__tags">${(m.tags || []).map((t) => `<span class="tag">${esc(t)}</span>`).join('')}</div>
       </article>`).join('');
+
+    $('#companyGifts').innerHTML = COMPANY_GIFTS.map((g) => `<li>${esc(g)}</li>`).join('');
 
     $('#leaveSummary').innerHTML = `
       <div class="leave-summary__grid">
@@ -617,16 +935,35 @@
       <p class="caution__title">신청 전에 확인할 것</p>
       <ul>
         <li>2027년 금액은 2026년 기준이에요. 매년 상한과 지원금이 바뀌니 신청 전 고용24·복지로에서 다시 확인하세요.</li>
+        <li>부산형 산후조리경비는 조리원 몫이 50만 원까지예요. 100만 원 전부를 조리원비로 돌려받는 건 아니에요.</li>
+        <li>바우처 카드로 결제한 조리원비는 산후조리경비 지원도, 의료비 세액공제도 안 돼요. 결제 순서를 꼭 지키세요.</li>
         <li>6+6은 부모가 같은 자녀로 휴직을 시작할 때 자녀가 생후 18개월 이내여야 해요. 도완 2차(2027.12)는 생후 8개월이라 조건에 들어요.</li>
         <li>휴직을 나눠 쓸 때 첫 6개월 상한을 통산하는 방식은 지급액이 달라질 수 있어요. 고용센터에 미리 계산을 맡겨 두세요.</li>
-        <li>명주 18개월의 6개월 연장은 부모가 각각 3개월 이상 사용이 조건이라, 도완 1차 완료 증빙이 꼭 필요해요.</li>
-        <li>고용보험 피보험단위기간 180일 등 수급 요건과 회사 취업규칙도 함께 확인하세요.</li>
         <li>2027년 7월 이후 출생아부터 '아이맞이지원금·아동기본수당'으로 바뀌는 정부안이 논의 중이에요(2026-11 기준 법 개정 전). 우리 예정일 4/12는 그 전이라 현행 제도가 적용될 가능성이 높아요.</li>
       </ul>`;
   }
 
   /* ───────────────────────── 6. 출산 가방 ───────────────────────── */
   const BAG = [
+    {
+      id: 'bag-birth', title: '출산 직후 바로 쓸 것', icon: '🩹', items: [
+        { id: 'b-x1', text: '헤겐 PPSU 애착 젖병 트윈 세트 4P', note: '150ml 2P + 240ml 2P' },
+        { id: 'b-x2', text: '솔리디아 압박스타킹 94,250원', note: '발등 덮고 무릎 위 · 제왕절개 대비' },
+        { id: 'b-x3', text: 'Mom+ 제왕절개 복대', note: '이중 고정' }
+      ]
+    },
+    {
+      id: 'bag-luanne', title: '루안느 입실 준비물', icon: '🏨', items: [
+        { id: 'b-l1', text: '산모 오로패드' },
+        { id: 'b-l2', text: '수유패드' },
+        { id: 'b-l3', text: '아기 물티슈 2개' },
+        { id: 'b-l4', text: '마스크' },
+        { id: 'b-l5', text: '모유보관팩' },
+        { id: 'b-l6', text: '텀블러' },
+        { id: 'b-l7', text: '양말 · 손수건' },
+        { id: 'b-l8', text: '개인 세면도구' }
+      ]
+    },
     {
       id: 'bag-mom', title: '산모용', icon: '🤍', items: [
         { id: 'b-m1', text: '산모패드 (대형)', note: '' },
@@ -636,7 +973,13 @@
         { id: 'b-m5', text: '세면도구 · 스킨케어' },
         { id: 'b-m6', text: '수건 3장 · 슬리퍼' },
         { id: 'b-m7', text: '물병 · 빨대 (누워서 마시기)' },
-        { id: 'b-m8', text: '속옷 여유분' }
+        { id: 'b-m8', text: '속옷 여유분' },
+        { id: 'b-m9', text: '수면양말 · 보호자 침구' },
+        { id: 'b-m10', text: '롤휴지 · 핸드워시' },
+        { id: 'b-m11', text: '휴대폰 충전기 · 보조배터리 · 멀티탭' },
+        { id: 'b-m12', text: '손목보호대 · 마스크' },
+        { id: 'b-m13', text: '산모용 영양제 · 붓기차' },
+        { id: 'b-m14', text: '아이패드 · 에어팟' }
       ]
     },
     {
@@ -647,7 +990,9 @@
         { id: 'b-b4', text: '속싸개 · 겉싸개' },
         { id: 'b-b5', text: '아기 수건 3장' },
         { id: 'b-b6', text: '손싸개 · 양말 · 모자' },
-        { id: 'b-b7', text: '젖병 · 분유 (병원 지시 시)' }
+        { id: 'b-b7', text: '젖병 · 분유 (병원 지시 시)' },
+        { id: 'b-b8', text: '로션 · 크림' },
+        { id: 'b-b9', text: '초점책 · 장난감' }
       ]
     },
     {
