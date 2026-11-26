@@ -173,7 +173,7 @@ html.unlocked .lock{display:none}
 /* ───────── 탭 ───────── */
 .tabs{
   position:sticky;top:0;z-index:60;
-  display:grid;grid-template-columns:repeat(7,1fr);gap:2px;
+  display:grid;grid-template-columns:repeat(8,1fr);gap:2px;
   padding:6px max(6px,env(safe-area-inset-left)) 6px max(6px,env(safe-area-inset-right));
   background:rgba(251,246,236,.94);backdrop-filter:blur(14px);
   border-bottom:1px solid var(--line);
@@ -189,8 +189,12 @@ html.unlocked .lock{display:none}
 .tab:active{transform:scale(.96)}
 .tab.is-active{color:var(--mint-deep);background:var(--mint-50)}
 .tab.is-active .tab__icon{filter:none;transform:translateY(-1px)}
+@media (max-width:420px){
+  .tab{font-size:9.5px;padding:8px 0 7px;letter-spacing:-.04em}
+  .tab__icon{font-size:15px}
+}
 @media (min-width:700px){
-  .tabs{grid-template-columns:repeat(7,minmax(0,120px));justify-content:center;gap:6px;padding:8px 16px}
+  .tabs{grid-template-columns:repeat(8,minmax(0,124px));justify-content:center;gap:6px;padding:8px 16px}
   .tab{font-size:12px;padding:8px 6px}
   .tab__icon{font-size:19px}
 }
@@ -523,6 +527,83 @@ html.unlocked .lock{display:none}
 .caution li{position:relative;padding-left:12px;font-size:11.5px;line-height:1.65;color:#6F6449}
 .caution li::before{content:"·";position:absolute;left:3px;top:-1px;font-weight:800}
 .source{margin:22px 0 0;font-size:10.5px;line-height:1.7;color:#A79E8E}
+
+/* ───────── 휴직일정 달력 ───────── */
+.leave-glance{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+@media (min-width:600px){.leave-glance{grid-template-columns:repeat(4,1fr)}}
+.lg{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:11px 12px 12px;box-shadow:var(--shadow)}
+.lg__k{font-size:9.5px;font-weight:800;letter-spacing:.08em;color:var(--mint-deep)}
+.lg__v{margin-top:3px;font-family:var(--serif);font-size:15px;font-weight:700;letter-spacing:-.025em;line-height:1.3}
+.lg__n{margin-top:3px;font-size:10.5px;line-height:1.5;color:var(--muted);letter-spacing:-.015em}
+
+.legend{display:flex;flex-wrap:wrap;gap:5px 10px;margin:16px 2px 12px;font-size:10.5px;font-weight:600;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block;border:1px solid rgba(120,100,70,.14)}
+.legend .lg-mint{background:var(--mint-100)}
+.legend .lg-rose{background:#FBE4DE}
+.legend .lg-sun{background:#FBF0D6}
+.legend .lg-peach{background:#FBE9DC}
+.legend .lg-lilac{background:#E9E5F5}
+.legend .lg-deep{background:var(--mint-deep)}
+
+.cal{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:14px 12px 13px;margin-bottom:12px;
+}
+.cal__head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.cal__month{font-family:var(--serif);font-size:18px;font-weight:700;letter-spacing:-.03em;color:#1F4A3D}
+.cal__month small{margin-left:5px;font-family:var(--sans);font-size:10px;font-weight:600;color:var(--muted);letter-spacing:0}
+.cal__chips{display:flex;flex-wrap:wrap;gap:4px}
+.cal__chips span{
+  font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:999px;
+  background:var(--mint-50);color:var(--mint-deep);border:1px solid var(--mint-100);white-space:nowrap;
+}
+.cal__grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-top:11px}
+.cal__dow{text-align:center;font-size:9.5px;font-weight:700;color:var(--muted);padding-bottom:3px}
+.cal__dow.is-sun{color:#C0603F}
+.cal__dow.is-sat{color:#4E739B}
+.cal__day{
+  min-height:41px;border-radius:9px;padding:4px 1px 3px;
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  background:#FCF8F0;border:1px solid transparent;
+}
+.cal__day.is-empty{background:transparent}
+.cal__num{font-size:11px;font-weight:700;line-height:1.1;color:var(--ink-soft)}
+.cal__day.is-sun .cal__num{color:#C0603F}
+.cal__day.is-sat .cal__num{color:#4E739B}
+.cal__day.is-hol .cal__num{color:#C0392B}
+.cal__tag{
+  max-width:100%;font-size:7.5px;font-weight:800;line-height:1.2;letter-spacing:-.04em;
+  padding:1px 3px;border-radius:5px;text-align:center;
+  background:#EDE5D6;color:#6E6455;
+}
+
+.cal__day[data-tone="leave"]{background:var(--mint-100);border-color:var(--mint-200)}
+.cal__day[data-tone="leave"] .cal__tag{background:var(--mint);color:#fff}
+.cal__day[data-tone="work"]{background:#F2F6F3}
+.cal__day[data-tone="holiday"]{background:#FBF0D6;border-color:#F1E1B9}
+.cal__day[data-tone="holiday"] .cal__tag{background:#B98A2E;color:#fff}
+.cal__day[data-tone="exam"]{background:#FBE4DE;border-color:#F3CBC0}
+.cal__day[data-tone="exam"] .cal__tag{background:#C15C45;color:#fff}
+.cal__day[data-tone="birth"]{background:#FBE9DC;border-color:#F6DAC7}
+.cal__day[data-tone="birth"] .cal__tag{background:var(--peach-deep);color:#fff}
+.cal__day[data-tone="parent"]{background:#E9E5F5;border-color:#D8D1EB}
+.cal__day[data-tone="parent"] .cal__tag{background:#6E619C;color:#fff}
+.cal__day[data-tone="due"]{background:var(--mint-deep);border-color:var(--mint-deep)}
+.cal__day[data-tone="due"] .cal__num{color:#F4FBF7}
+.cal__day[data-tone="due"] .cal__tag{background:#FFFFFF;color:var(--mint-deep)}
+
+.cal__notes{margin-top:11px;display:grid;gap:4px;border-top:1px dashed var(--line);padding-top:9px}
+.cal__notes li{position:relative;padding-left:10px;font-size:11px;line-height:1.6;color:var(--ink-soft);letter-spacing:-.015em}
+.cal__notes li::before{content:"";position:absolute;left:2px;top:7px;width:3px;height:3px;border-radius:50%;background:var(--mint)}
+.cal__notes b{font-weight:700;color:#1F6B57}
+
+@media (max-width:360px){
+  .cal{padding:12px 9px 11px}
+  .cal__grid{gap:2px}
+  .cal__day{min-height:38px;border-radius:8px}
+  .cal__tag{font-size:7px;padding:1px 2px}
+}
 
 /* ───────── 이름·선물 ───────── */
 .addform{display:flex;gap:8px;margin-bottom:14px}

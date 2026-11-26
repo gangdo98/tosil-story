@@ -1259,8 +1259,181 @@
     });
   }
 
+  /* ───────────────────────── 2. 휴직일정 (월별 달력) ───────────────────────── */
+  const LEAVE_GLANCE = [
+    { k: '연차', v: '15일 모두 사용', n: '1/7~8 2일 · 2/10~26 13일' },
+    { k: '리프레시', v: '4일 사용', n: '3/2(화)~3/5(금)' },
+    { k: '출산휴가', v: '90일', n: '2027.3.8~6.5 · 3월 24 + 4월 30 + 5월 31 + 6월 5' },
+    { k: '육아휴직', v: '6/6 시작', n: '출산휴가 다음 날부터' }
+  ];
+
+  /* 기간으로 칠하는 일정 (tone 색으로 배경 표시) */
+  const LEAVE_RANGES = [
+    { from: '2027-01-07', to: '2027-01-08', tone: 'leave', tag: '연차', tagEvery: true },
+    { from: '2027-02-01', to: '2027-02-05', tone: 'work', tag: '근무' },
+    { from: '2027-02-06', to: '2027-02-09', tone: 'holiday' },
+    { from: '2027-02-10', to: '2027-02-12', tone: 'leave', tag: '연차' },
+    { from: '2027-02-15', to: '2027-02-19', tone: 'leave', tag: '연차' },
+    { from: '2027-02-22', to: '2027-02-26', tone: 'leave', tag: '연차' },
+    { from: '2027-03-02', to: '2027-03-05', tone: 'leave', tag: '리프레시' },
+    { from: '2027-03-08', to: '2027-06-05', tone: 'birth' },
+    { from: '2027-06-06', to: '2027-06-30', tone: 'parent' }
+  ];
+
+  /* 하루짜리 표시 (기간 위에 덮어쓰기) */
+  const LEAVE_DAYS = {
+    '2027-01-01': { tone: 'holiday', tag: '신정' },
+    '2027-01-25': { tone: 'exam', tag: '검진' },
+    '2027-02-04': { tone: 'exam' },
+    '2027-02-05': { tone: 'exam', tag: '검진' },
+    '2027-02-07': { tag: '설날' },
+    '2027-02-09': { tag: '대체' },
+    '2027-03-01': { tone: 'holiday', tag: '삼일절' },
+    '2027-03-08': { tag: '휴가시작' },
+    '2027-04-12': { tone: 'due', tag: 'D-DAY' },
+    '2027-05-01': { hol: true },
+    '2027-05-03': { hol: true },
+    '2027-05-05': { hol: true },
+    '2027-05-13': { hol: true },
+    '2027-06-05': { tag: '휴가종료' },
+    '2027-06-06': { tag: '휴직시작', hol: true }
+  };
+
+  const LEAVE_MONTHS = [
+    {
+      y: 2027, m: 1,
+      chips: ['연차 2일', '검진 1회'],
+      notes: [
+        '<b>1/1(금)</b> 신정 — 공휴일',
+        '<b>1/7(목)~1/8(금)</b> 연차 2일 — 연차 15일 중 2일 사용, 잔여 13일',
+        '<b>1/7(목)~1/10(일)</b> 후쿠오카 여행 (3박 4일)',
+        '<b>1/25(월)</b> 태아검진 — 2주 간격 시작, 반차 미사용'
+      ]
+    },
+    {
+      y: 2027, m: 2,
+      chips: ['설 연휴 4일', '연차 13일'],
+      notes: [
+        '<b>2/1(월)~2/5(금)</b> 정상 근무 — <b>2/4(목)·2/5(금)</b> 중 태아검진, 반차 미사용',
+        '<b>2/6(토)~2/9(화)</b> 설날 연휴 — 2/7 설날(일), 2/9 대체공휴일',
+        '<b>2/10(수)~2/26(금)</b> 잔여 연차 13일 — 2/10~12 · 2/15~19 · 2/22~26'
+      ]
+    },
+    {
+      y: 2027, m: 3,
+      chips: ['삼일절', '리프레시 4일', '출산휴가 시작'],
+      notes: [
+        '<b>3/1(월)</b> 삼일절 — 공휴일',
+        '<b>3/2(화)~3/5(금)</b> 리프레시 4일 — 2월 연차 13일과 합쳐 17일 모두 사용 완료',
+        '<b>3/8(월)</b> 출산휴가 90일 시작'
+      ]
+    },
+    {
+      y: 2027, m: 4,
+      chips: ['출산휴가', 'D-DAY 4/12'],
+      notes: [
+        '출산휴가 계속 — 3/8~6/5 중 4월 몫 30일',
+        '<b>4/12(월)</b> 토실이 출산 예정일 (40주 0일)'
+      ]
+    },
+    {
+      y: 2027, m: 5,
+      chips: ['출산휴가'],
+      notes: [
+        '출산휴가 계속 — 5월 몫 31일',
+        '<b>5/1(토)</b> 노동절 · <b>5/5(수)</b> 어린이날 · <b>5/13(목)</b> 부처님오신날 — 휴가 중이라 따로 쓰지 않아요'
+      ]
+    },
+    {
+      y: 2027, m: 6,
+      chips: ['출산휴가 종료', '육아휴직 시작'],
+      notes: [
+        '<b>6/5(토)</b> 출산휴가 90일 종료 — 3월 24일 + 4월 30일 + 5월 31일 + 6월 5일',
+        '<b>6/6(일)</b> 육아휴직 시작 (현충일)'
+      ]
+    }
+  ];
+
+  const LEAVE_TONE_NAMES = {
+    leave: '연차·리프레시', work: '정상 근무', holiday: '공휴일', exam: '검진',
+    birth: '출산휴가', parent: '육아휴직', due: '출산 예정일'
+  };
+
+  function leaveISO(t) { return new Date(t).toISOString().slice(0, 10); }
+
+  function leaveDayMap() {
+    const map = {};
+    const put = (k, v) => { map[k] = Object.assign(map[k] || {}, v); };
+
+    LEAVE_RANGES.forEach((r) => {
+      const s = Date.parse(r.from + 'T00:00:00Z');
+      const e = Date.parse(r.to + 'T00:00:00Z');
+      for (let t = s; t <= e; t += 86400000) {
+        const k = leaveISO(t);
+        put(k, { tone: r.tone });
+        if (r.tag && (t === s || r.tagEvery)) put(k, { tag: r.tag });
+      }
+    });
+    Object.keys(LEAVE_DAYS).forEach((k) => put(k, LEAVE_DAYS[k]));
+    return map;
+  }
+
+  function renderLeave() {
+    const host = $('#leaveCal');
+    if (!host) return;
+
+    $('#leaveGlance').innerHTML = LEAVE_GLANCE.map((g) => `
+      <div class="lg">
+        <p class="lg__k">${esc(g.k)}</p>
+        <p class="lg__v">${esc(g.v)}</p>
+        <p class="lg__n">${esc(g.n)}</p>
+      </div>`).join('');
+
+    const map = leaveDayMap();
+    const DOW = ['일', '월', '화', '수', '목', '금', '토'];
+
+    host.innerHTML = LEAVE_MONTHS.map((mo) => {
+      const pad = new Date(Date.UTC(mo.y, mo.m - 1, 1)).getUTCDay();
+      const last = new Date(Date.UTC(mo.y, mo.m, 0)).getUTCDate();
+
+      let cells = DOW.map((d, i) => `<span class="cal__dow${i === 0 ? ' is-sun' : i === 6 ? ' is-sat' : ''}">${d}</span>`).join('');
+      cells += '<span class="cal__day is-empty" aria-hidden="true"></span>'.repeat(pad);
+
+      for (let d = 1; d <= last; d++) {
+        const k = `${mo.y}-${String(mo.m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        const info = map[k] || {};
+        const dow = (pad + d - 1) % 7;
+        const cls = ['cal__day'];
+        if (dow === 0) cls.push('is-sun');
+        if (dow === 6) cls.push('is-sat');
+        if (info.hol) cls.push('is-hol');
+
+        const bits = [`${mo.m}월 ${d}일 ${DOW[dow]}요일`];
+        if (LEAVE_TONE_NAMES[info.tone]) bits.push(LEAVE_TONE_NAMES[info.tone]);
+        if (info.tag) bits.push(info.tag);
+        if (info.hol) bits.push('공휴일');
+        const label = esc(bits.join(' · '));
+
+        cells += `<span class="${cls.join(' ')}"${info.tone ? ` data-tone="${info.tone}"` : ''} aria-label="${label}" title="${label}">`
+          + `<span class="cal__num">${d}</span>`
+          + (info.tag ? `<span class="cal__tag">${esc(info.tag)}</span>` : '')
+          + '</span>';
+      }
+
+      return `
+      <section class="cal">
+        <div class="cal__head">
+          <p class="cal__month">${mo.m}월<small>${mo.y}</small></p>
+          <div class="cal__chips">${mo.chips.map((c) => `<span>${esc(c)}</span>`).join('')}</div>
+        </div>
+        <div class="cal__grid">${cells}</div>
+        <ul class="cal__notes">${mo.notes.map((n) => `<li>${n}</li>`).join('')}</ul>
+      </section>`;
+    }).join('');
+  }
+
   /* ───────────────────────── 탭 ───────────────────────── */
-  const TABS = ['photo', 'shop', 'task', 'hospital', 'money', 'bag', 'names'];
+  const TABS = ['photo', 'leave', 'shop', 'task', 'hospital', 'money', 'bag', 'names'];
 
   function showTab(id, save = true, scroll = true) {
     if (!TABS.includes(id)) id = 'photo';
@@ -1338,6 +1511,7 @@
   function init() {
     renderHero();
     renderAlbum();
+    renderLeave();
     renderShop();
     renderTasks();
     renderHospital();

@@ -15,7 +15,7 @@ try{if(localStorage.getItem('tosil.lock.v1')==='1'){document.documentElement.cla
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap">
-<link rel="stylesheet" href="styles.css?v=20261125g">
+<link rel="stylesheet" href="styles.css?v=20261126a">
 </head>
 <body>
 
@@ -94,6 +94,7 @@ try{if(localStorage.getItem('tosil.lock.v1')==='1'){document.documentElement.cla
   <!-- ───────── 탭 ───────── -->
   <nav class="tabs" id="tabs" aria-label="준비 노트 탭">
     <button class="tab is-active" type="button" data-tab="photo" aria-selected="true"><span class="tab__icon" aria-hidden="true">📸</span><span class="tab__label">사진</span></button>
+    <button class="tab" type="button" data-tab="leave" aria-selected="false"><span class="tab__icon" aria-hidden="true">📅</span><span class="tab__label">휴직일정</span></button>
     <button class="tab" type="button" data-tab="shop" aria-selected="false"><span class="tab__icon" aria-hidden="true">🛒</span><span class="tab__label">살 것</span></button>
     <button class="tab" type="button" data-tab="task" aria-selected="false"><span class="tab__icon" aria-hidden="true">✅</span><span class="tab__label">할 일</span></button>
     <button class="tab" type="button" data-tab="hospital" aria-selected="false"><span class="tab__icon" aria-hidden="true">🏥</span><span class="tab__label">병원</span></button>
@@ -134,7 +135,32 @@ try{if(localStorage.getItem('tosil.lock.v1')==='1'){document.documentElement.cla
       </div>
     </section>
 
-    <!-- ───────── 2. 살 것 ───────── -->
+    <!-- ───────── 2. 휴직일정 ───────── -->
+    <section class="panel" id="panel-leave" aria-label="휴직 일정 달력" hidden>
+      <div class="wrap">
+        <div class="sec-head">
+          <h2>휴직일정 · 2027년 1~6월</h2>
+          <p>토실이 엄마(명주)의 연차 · 출산휴가 · 육아휴직을 월별 달력으로 정리했어요. 세로로 내려 보면 1월부터 6월까지 이어서 볼 수 있어요.</p>
+        </div>
+
+        <div class="leave-glance" id="leaveGlance"></div>
+
+        <div class="legend" aria-hidden="true">
+          <span><i class="lg-mint"></i>연차·리프레시</span>
+          <span><i class="lg-rose"></i>검진</span>
+          <span><i class="lg-sun"></i>공휴일</span>
+          <span><i class="lg-peach"></i>출산휴가</span>
+          <span><i class="lg-lilac"></i>육아휴직</span>
+          <span><i class="lg-deep"></i>출산 예정일</span>
+        </div>
+
+        <div id="leaveCal"></div>
+
+        <p class="source">근거 · 2027년 월력요항(우주항공청 2026-06-29 발표)과 아내 카톡 수정본. 출산휴가 90일은 3/8~6/5 = 3월 24일 + 4월 30일 + 5월 31일 + 6월 5일로 계산했어요. 연차 13일과 리프레시 4일 중 무엇을 먼저 붙이는지는 회사 규정에 따라 달라질 수 있어요. 확인일 2026-11-26.</p>
+      </div>
+    </section>
+
+    <!-- ───────── 3. 살 것 ───────── -->
     <section class="panel" id="panel-shop" aria-label="사야 할 것" hidden>
       <div class="wrap">
         <div class="sec-head">
@@ -152,7 +178,7 @@ try{if(localStorage.getItem('tosil.lock.v1')==='1'){document.documentElement.cla
       </div>
     </section>
 
-    <!-- ───────── 3. 할 일 ───────── -->
+    <!-- ───────── 4. 할 일 ───────── -->
     <section class="panel" id="panel-task" aria-label="해야 하는 것" hidden>
       <div class="wrap">
         <div class="sec-head">
@@ -164,7 +190,7 @@ try{if(localStorage.getItem('tosil.lock.v1')==='1'){document.documentElement.cla
       </div>
     </section>
 
-    <!-- ───────── 4. 병원 ───────── -->
+    <!-- ───────── 5. 병원 ───────── -->
     <section class="panel" id="panel-hospital" aria-label="병원과 검진" hidden>
       <div class="wrap">
         <div class="sec-head">
@@ -292,7 +318,7 @@ try{if(localStorage.getItem('tosil.lock.v1')==='1'){document.documentElement.cla
       </div>
     </section>
 
-    <!-- ───────── 5. 지원금 ───────── -->
+    <!-- ───────── 6. 지원금 ───────── -->
     <section class="panel" id="panel-money" aria-label="지원금과 휴직" hidden>
       <div class="wrap">
         <div class="sec-head">
@@ -376,7 +402,7 @@ try{if(localStorage.getItem('tosil.lock.v1')==='1'){document.documentElement.cla
       </div>
     </section>
 
-    <!-- ───────── 6. 가방 ───────── -->
+    <!-- ───────── 7. 가방 ───────── -->
     <section class="panel" id="panel-bag" aria-label="출산 가방" hidden>
       <div class="wrap">
         <div class="sec-head">
@@ -388,7 +414,7 @@ try{if(localStorage.getItem('tosil.lock.v1')==='1'){document.documentElement.cla
       </div>
     </section>
 
-    <!-- ───────── 7. 이름 ───────── -->
+    <!-- ───────── 8. 이름 ───────── -->
     <section class="panel" id="panel-names" aria-label="이름 후보와 선물 기록" hidden>
       <div class="wrap">
         <div class="sec-head">
@@ -419,7 +445,7 @@ try{if(localStorage.getItem('tosil.lock.v1')==='1'){document.documentElement.cla
   <footer class="footer">
     <p class="footer__title">토실이 준비 노트</p>
     <p class="footer__meta">강도완 · 김명주 · 2027. 4. 12 만나요</p>
-    <p class="footer__note">마지막 업데이트 <span id="updated">2026-11-25</span> · 가족만 보는 페이지예요</p>
+    <p class="footer__note">마지막 업데이트 <span id="updated">2026-11-26</span> · 가족만 보는 페이지예요</p>
   </footer>
 
 </div>
@@ -430,6 +456,6 @@ try{if(localStorage.getItem('tosil.lock.v1')==='1'){document.documentElement.cla
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 <script src="friend-list.js?v=20261125d"></script>
-<script src="app.js?v=20261125i"></script>
+<script src="app.js?v=20261126a"></script>
 </body>
 </html>
