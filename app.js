@@ -9,11 +9,9 @@
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
-  const PASSWORD = '0716';
   const DUE_UTC = Date.UTC(2027, 3, 12);      // 2027-04-12 = 임신 40주 0일
   const TOTAL_DAYS = 280;
   const KEY = {
-    lock: 'tosil.lock.v1',
     check: 'tosil.checks.v1',
     memo: 'tosil.memo.v1',
     names: 'tosil.names.v1',
@@ -289,15 +287,15 @@
     },
     {
       id: 'k-cybex', cat: 'travel', group: 'jpbuy', status: 'consider',
-      name: '싸이벡스 카시트 (+ 베이스)', price: '¥44,000 ~ ¥82,500(세후)',
-      tags: ['라라포트 3층', '아카짱혼포 · DADWAY 비교'],
+      name: '싸이벡스 카시트 시로나 Si (베이스S·신생아 인레이 세트)', price: '세후 ¥82,500 · 약 70만 원',
+      tags: ['라라포트 3층 아카짱혼포', '12.7kg · 모델 확정'],
       notes: [
-        '시로나 S ¥53,900 + 베이스S ¥35,200 / 시로나 Si 세트 세후 ¥82,500 (12.7kg)',
-        '클라우드T i-Size ¥44,000 + 베이스 별도 — 신생아 인레이 포함 여부 확인',
-        '지인은 국내에서 시크 카시트(바구니카시트 포함) 89만 원에 샀어요 — 국내 구매도 비교해 볼 것',
-        '백화점은 외국인에게 카시트 판매 불가 · 같은 층 DADWAY도 싸이벡스 취급'
+        '확정 구성 — 시로나 Si + 베이스S + 신생아 인레이 세트 · 세전 ¥75,000 / 세후 ¥82,500',
+        '본체+베이스 12.7kg · 박스·포장재까지 약 14~15kg (위탁수하물)',
+        '같은 3층 DADWAY도 싸이벡스 취급 — 재고 없으면 그쪽에 타 지점 재고 조회·홀드 요청. 2층 토이저러스는 아기용품 없음',
+        '백화점은 외국인에게 카시트 판매 불가 · 일본 구매분은 국내 정품 등록·A/S 불가'
       ],
-      next: '<b>시로나 S + 베이스S</b> 조합과 클라우드T+베이스를 매장에서 무게·장착으로 비교. 국내 시크 89만 원과도 견줘 보세요.'
+      next: '<b>1/9(토) 14:00 라라포트 3층 아카짱혼포</b>에서 수령. 1층 투어리스트 인포메이션에서 면세 등록 → 공항 세관 확인 뒤 환급.'
     },
     {
       id: 'k-artipoppe', cat: 'travel', group: 'jpbuy', status: 'reserved',
@@ -585,11 +583,13 @@
   const TASK_STAGES = [
     {
       id: 'mid', title: '임신 중기', sub: '20~27주 · 2026.11 ~ 2027.01', items: [
-        { id: 't-card', text: '국민행복카드 미리 발급', note: '조리원 입소 전에 카드가 있어야 첫만남이용권을 바로 써요' },
+        { id: 't-card', text: '국민행복카드 미리 발급', note: '발급 완료 · 바우처 100만 원 그대로 남아 있어요 (병원 수납 때 차감)' },
+        { id: 't-pooman', text: '동구 품안愛 신청 (일신기독병원 비급여 20% 감면)', note: '✅ 2026-11-27 신청 완료 — 수납할 때 대상자라고 말하기' },
+        { id: 't-iron', text: '동구보건소 철분제 수령', note: '✅ 2026-11-27 수령 완료 — 다음 분량은 12월에 한 번 더' },
         { id: 't-ultra20', text: '20주 정밀초음파 예약 (일신기독병원)', note: '11월 말~12월 초 · 장기·얼굴·태반 위치까지' },
         { id: 't-sugar', text: '임당검사 예약 (24~28주)', note: '12월 중순~1월 초, 금식 안내 확인' },
         { id: 't-care', text: '조리원 잔금 결제 순서 정리', note: '루안느 B프레스티지 9박10일 · 잔금 3,465,000원(할인 시 3,365,000원)' },
-        { id: 't-helper', text: '산후도우미 신청 가능 여부 확인', note: '중위소득 150% 이하 전국 공통 · 인기 관리사는 일찍 마감' },
+        { id: 't-helper', text: '산후도우미(산모·신생아 건강관리사) 신청', note: '예정일 40일 전부터 신청 · 인기 관리사는 25~30주에 가예약 · 복지로·동구보건소(051-440-6564)' },
         { id: 't-fetus', text: '태아보험 22주 마감선 확인', note: '이미 20주 — 저체중아·선천성 특약은 22주 전에 결정' },
         { id: 't-post', text: '우체국 태아보험·자동차보험 태아 특약 확인', note: '임신확인서 제출 · 보험사마다 할인율이 달라요' },
         { id: 't-ob', text: '임신부 외래진료비 20% 감면 적용', note: '진료받을 때 “임산부입니다” 말하면 본인부담 20% 감면' },
@@ -618,6 +618,7 @@
         { id: 't-buy3', text: '출산 직후 필수 3종 구매 (3월 20일경)', note: '헤겐 젖병 트윈세트 · 솔리디아 압박스타킹 · Mom+ 복대 → 3/20 캘린더' },
         { id: 't-nst', text: '35~37주 막달검사 · 태동검사', note: '분만 준비 상태 확인' },
         { id: 't-bag', text: '출산 가방 차에 실어 두기', note: '가방 탭 체크리스트로 최종 확인' },
+        { id: 't-clean', text: '집 대청소 · 세탁기/에어컨 분해 청소', note: '신생아 맞이 봄 대청소. 세탁기 통세척·에어컨 분해 세척은 업체 예약을 2주 전에' },
         { id: 't-settle', text: '조리원 잔금 결제 (순서대로)', note: '부산형 산후조리비 → 개인카드 200만 원 → 남은 금액 첫만남이용권' },
         { id: 't-route', text: '병원 가는 길 · 새벽 교통 확인', note: '일신기독병원까지 택시 호출 앱·주차 위치까지' },
         { id: 't-name', text: '이름 최종 결정', note: '출생신고 전에 둘이서 하나로' },
@@ -627,7 +628,7 @@
     },
     {
       id: 'after', title: '출산 직후', sub: '2027.04 ~', items: [
-        { id: 't-birth', text: '출생신고 + 행복출산 원스톱 신청', note: '출생 1개월 안 · 주민센터 방문이 제일 빨라요' },
+        { id: 't-birth', text: '출생신고 + 행복출산 원스톱 신청', note: '생후 3~7일 이름 확정 후 동 행정복지센터 방문 — 아래 준비물 참고' },
         { id: 't-voucher', text: '첫만남이용권 신청', note: '원스톱으로 한 번에 · 출생일부터 2년 안에 사용' },
         { id: 't-parent', text: '부모급여 · 아동수당 신청', note: '출생일 포함 60일 안에 → 출생월부터 소급' },
         { id: 't-elec', text: '전기요금 할인 신청', note: '행복출산 원스톱 때 같이 · 아파트는 관리사무소에도 통보' },
@@ -635,6 +636,7 @@
         { id: 't-alarm', text: '출산 후 2·5·7·10일 알림 챙기기', note: '태어났다고 알리면 2·5·7·10일 뒤 알림을 추가' },
         { id: 't-busan', text: '부산형 산후조리비 신청', note: '출생 6개월 안에 쓰고, 1년 안에 보건소·정부24' },
         { id: 't-care3', text: '산모·신생아 건강관리 서비스 신청', note: '퇴원 후 바로 시작하려면 미리 신청' },
+        { id: 't-pump', text: '동구보건소 유축기 대여 예약', note: '출산 후 전화(☎051-440-6524) → 방문 대여 · 1개월 무료, 소모품만 개인 구매' },
         { id: 't-dadleave', text: '배우자 출산전후휴가 20일 사용', note: '출생일부터 120일 안에 모두' },
         { id: 't-leave2', text: '명주님 6개월 유급 연장 신청', note: '도완 1차 3개월 완료 증빙 첨부' }
       ]
@@ -644,6 +646,24 @@
   function checkedCount(ids) {
     return ids.filter((id) => checks[id]).length;
   }
+
+  /* 출산 직후 — 출생신고 · 행복출산 원스톱 안내 카드 */
+  const BIRTH_DOC_CARD = `
+    <div class="card" style="margin-top:12px">
+      <div class="appointment__head">
+        <span class="badge badge--rose">출생신고</span>
+        <span class="appointment__state">생후 3~7일</span>
+      </div>
+      <p class="appointment__title">동 행정복지센터에서 한 번에 끝내기</p>
+      <p class="appointment__sub">이름이 확정된 뒤 <b>조리원에 있는 동안</b> 방문하면 가장 편해요. 아기가 같이 가지 않아도 됩니다.</p>
+      <ul class="money__list">
+        <li><b>시기</b> — 생후 3~7일 (출생신고는 1개월 안)</li>
+        <li><b>준비물</b> — 출생증명서 3부 이상 · 부모 신분증 · 입금 계좌번호 · 아기 한자 이름</li>
+        <li><b>한 번에</b> — 행복출산 원스톱으로 출생신고 + 첫만남이용권 + 부모급여·아동수당 + 전기요금 할인</li>
+        <li><b>연계</b> — 태아보험 출생 등재를 같은 날 신청해야 보장이 끊기지 않아요</li>
+      </ul>
+      <p class="source">출생증명서는 병원에서 3부 이상 받아 두면 주민센터·회사(출산축하선물)·보험사에 한 번에 쓸 수 있어요.</p>
+    </div>`;
 
   function renderTasks() {
     const allIds = TASK_STAGES.flatMap((s) => s.items.map((i) => i.id));
@@ -675,7 +695,7 @@
               <span class="chk__text">${esc(it.text)}${it.note ? `<span class="chk__note">${esc(it.note)}</span>` : ''}</span>
             </label>`).join('')}
         </section>`;
-    }).join('');
+    }).join('') + BIRTH_DOC_CARD;
   }
 
   /* ───────────────────────── 4. 병원 ───────────────────────── */
@@ -774,10 +794,16 @@
       tags: ['동구보건소 051-440-6564', '쌍둥이 200만 원']
     },
     {
-      title: '임신·출산 진료비', amount: '100만 원', sub: '국민행복카드 이용권',
-      body: '임신 1회당 단태아 100만 원(다태아 140만 원). 병·의원과 약국 본인부담 결제에 써요.',
-      list: ['분만예정일부터 2년까지 사용', '산부인과에서 신청서를 받아 카드사·공단·정부24에서 신청', '이미 신청했는지 한 번 확인해 보세요'],
-      tags: ['소득기준 없음']
+      title: '임신·출산 진료비 (국민행복카드)', amount: '100만 원', sub: '발급 완료 · 현재 미사용 (잔액 100만 원)',
+      badge: { label: '발급 완료', cls: 'badge--done' },
+      body: '국민행복카드 발급을 마쳤고 바우처 100만 원이 그대로 남아 있어요. 아직 한 번도 쓰지 않았습니다.',
+      list: [
+        '병원 수납창구에서 국민행복카드를 내면 100만 원에서 바로 차감 — 카드사·공단 바우처가 붙어 있으면 따로 신청하지 않아도 돼요',
+        '바우처(포인트) 신청이 따로 필요할 수 있어요 — 카드사 앱이나 국민건강보험공단(☎1577-1000)에서 잔액 100만 원인지 먼저 확인',
+        '첫만남이용권 200만 원과는 별개 제도라 두 개를 합치면 300만 원',
+        '분만예정일부터 2년까지 사용'
+      ],
+      tags: ['소득기준 없음', '잔액 100만 원']
     },
     {
       title: '가정양육수당', amount: '월 10만 원', sub: '24~86개월 · 어린이집 안 다닐 때',
@@ -790,6 +816,47 @@
       body: '평일 저녁 6시~자정, 주말·공휴일 9시~18시 시간당 1,000원(원래 4,000원). 2026년 4월 기준 13곳.',
       list: ['가족사랑카드: 2자녀 이상 공영주차·시설 할인, 3자녀 이상 도시철도 50%'],
       tags: ['부산시', '첫째는 가족사랑카드 대상 아님']
+    },
+    {
+      title: '부산 동구 첫 돌 축하꾸러미', amount: '13만 원 상당', sub: '만 1세 돌 맞이 · 육아용품 택배',
+      body: '동구에 주민등록을 두고 사는 만 1세 영아에게 13만 원 상당 육아용품을 택배로 보내 줘요.',
+      list: [
+        '만 1세 생일이 있는 달의 전월 ~ 다음 달에 동구청 홈페이지에서 신청',
+        '동구 거주(주민등록) 조건 — 기간 안에 전출하면 대상에서 빠져요',
+        '우리 기준이면 2027년 3월~5월 사이 신청'
+      ],
+      tags: ['동구', '2027년 봄 신청']
+    },
+    {
+      title: '동구보건소 유축기 무료 대여', amount: '1개월 무료', sub: '출산 후 전화 예약 → 방문 대여',
+      body: '출산 후 동구보건소에 전화로 예약하고 방문해서 빌려요. 메델라 락티나 · 스펙트라 듀얼S 중 고를 수 있어요.',
+      list: [
+        '본체 1개월 무료 — 깔대기·젖병 같은 소모품만 개인 구매',
+        '동구보건소 ☎ 051-440-6524',
+        '유축기를 살 계획이면 먼저 빌려 써 보고 결정해도 돼요'
+      ],
+      tags: ['동구보건소', '출산 후']
+    },
+    {
+      title: '동구 품안愛 (일신기독병원 비급여 감면)', amount: '비급여 20% 감면', sub: '신청 완료 · 2026-11-27',
+      badge: { label: '신청 완료', cls: 'badge--done' },
+      body: '동구가 일신기독병원과 협약해 임산부·출산 가정의 비급여 진료비를 20% 깎아 줘요. 신청을 마쳤어요.',
+      list: [
+        '병원 수납할 때 품안愛 대상자라고 말하면 적용돼요',
+        '비급여 항목(초음파·분만 지정료 등)에만 적용 — 급여분은 국민행복카드로 결제',
+        '적용 기간과 대상 범위는 수납 전에 병원 원무과에 한 번 확인'
+      ],
+      tags: ['동구', '신청 완료']
+    },
+    {
+      title: '동구보건소 철분제 무료 배급', amount: '무료', sub: '수령 완료 · 2026-11-27',
+      badge: { label: '수령 완료', cls: 'badge--done' },
+      body: '임신 중기부터 동구보건소에서 철분제를 무료로 받아요. 11월 27일에 수령을 마쳤습니다.',
+      list: [
+        '다음 분량은 12월에 한 번 더 챙기기 (보건소 방문 수령)',
+        '복용량·복용 시간은 병원 처방과 보건소 안내를 따르고, 빈혈 수치가 낮으면 따로 상담'
+      ],
+      tags: ['동구보건소', '수령 완료']
     },
     {
       title: '배우자 출산전후휴가', amount: '20일 유급', sub: '도완 님 몫',
@@ -835,7 +902,7 @@
       <article class="card money${m.na ? ' is-na' : ''}">
         <div class="money__top">
           <h3 class="money__title">${m.title}</h3>
-          ${m.na ? '<span class="badge badge--grey">해당 없음</span>' : '<span class="badge badge--mint">받을 수 있어요</span>'}
+          ${m.na ? '<span class="badge badge--grey">해당 없음</span>' : (m.badge ? `<span class="badge ${m.badge.cls || 'badge--mint'}">${esc(m.badge.label)}</span>` : '<span class="badge badge--mint">받을 수 있어요</span>')}
         </div>
         <p class="money__amount">${m.amount}<small>${m.sub}</small></p>
         <p class="money__body">${m.body}</p>
@@ -1198,66 +1265,8 @@
     }
   }
 
-  /* ───────────────────────── 잠금 ───────────────────────── */
-  let buf = '';
-  const lockEl = $('#lock');
-
-  function paintDots() {
-    $$('.dot').forEach((d, i) => d.classList.toggle('on', i < buf.length));
-  }
-
-  function unlock() {
-    store.setRaw(KEY.lock, '1');
-    document.documentElement.classList.add('unlocked');
-    buf = '';
-    paintDots();
-    $('#lockMsg').textContent = '';
-  }
-
-  function tryUnlock() {
-    if (buf === PASSWORD) {
-      unlock();
-      return;
-    }
-    lockEl.classList.add('is-error');
-    $('#lockMsg').textContent = '비밀번호가 맞지 않아요. 다시 눌러 주세요.';
-    if (navigator.vibrate) { try { navigator.vibrate(60); } catch (e) {} }
-    setTimeout(() => {
-      lockEl.classList.remove('is-error');
-      buf = '';
-      paintDots();
-    }, 420);
-  }
-
-  function pressKey(k) {
-    if (k === 'reset') { buf = ''; }
-    else if (k === 'del') { buf = buf.slice(0, -1); }
-    else if (/^\d$/.test(k) && buf.length < 4) { buf += k; }
-    $('#lockMsg').textContent = '';
-    paintDots();
-    if (buf.length === 4) setTimeout(tryUnlock, 90);
-  }
-
-  function bindLock() {
-    $('#keypad').addEventListener('click', (e) => {
-      const btn = e.target.closest('[data-key]');
-      if (btn) pressKey(btn.dataset.key);
-    });
-    document.addEventListener('keydown', (e) => {
-      if (document.documentElement.classList.contains('unlocked')) return;
-      if (/^\d$/.test(e.key)) pressKey(e.key);
-      else if (e.key === 'Backspace') pressKey('del');
-      else if (e.key === 'Escape') pressKey('reset');
-    });
-    $('#lockBtn').addEventListener('click', () => {
-      store.del(KEY.lock);
-      document.documentElement.classList.remove('unlocked');
-      buf = '';
-      paintDots();
-      $('#lockMsg').textContent = '';
-      toast('다시 잠갔어요');
-    });
-  }
+  /* ───────────────────────── 상단 메인 포털 버튼 ───────────────────────── */
+  /* 잠금은 메인 포털(https://gangdo98.github.io/)로 옮겼어요. 여기엔 잠금 화면이 없습니다. */
 
   /* ───────────────────────── 2. 휴직일정 (월별 달력) ───────────────────────── */
   const LEAVE_GLANCE = [
@@ -1519,7 +1528,6 @@
     renderBag();
     renderNames();
     bindNames();
-    bindLock();
     bindTabs();
     bindListEvents();
     bindToTop();

@@ -40,57 +40,17 @@ ul,ol{padding:0;list-style:none}
 
 .app{overflow-x:clip;padding-bottom:40px}
 
-/* ───────── 잠금 ───────── */
-html:not(.unlocked) .app{visibility:hidden}
-html:not(.unlocked) body{overflow:hidden}
-html.unlocked .lock{display:none}
-
-.lock{
-  position:fixed;inset:0;z-index:300;
-  display:grid;place-items:center;padding:24px;
-  background:
-    radial-gradient(120% 90% at 18% 8%,#FFFFFF 0%,rgba(255,255,255,0) 60%),
-    linear-gradient(168deg,#EAF7F1 0%,#FBF6EC 52%,#FDF1E6 100%);
-  overflow:hidden;
-}
-.lock__blob{position:absolute;border-radius:50%;filter:blur(46px);opacity:.55;pointer-events:none}
-.lock__blob--a{width:300px;height:300px;left:-90px;top:-60px;background:var(--mint-200)}
-.lock__blob--b{width:260px;height:260px;right:-80px;bottom:-70px;background:var(--peach)}
-.lock__card{
-  position:relative;width:100%;max-width:340px;text-align:center;
-  background:rgba(255,253,248,.82);
-  border:1px solid rgba(255,255,255,.9);
-  border-radius:26px;padding:26px 22px 22px;
-  box-shadow:0 30px 70px -40px rgba(63,97,84,.55),0 2px 10px rgba(120,100,70,.06);
-  backdrop-filter:blur(12px);
-}
-.lock__icon{font-size:30px;line-height:1}
-.lock__kicker{margin-top:6px;font-size:10px;letter-spacing:.34em;color:var(--mint-deep);font-weight:700}
-.lock__title{margin-top:6px;font-family:var(--serif);font-size:23px;font-weight:700;letter-spacing:-.03em}
-.lock__sub{margin-top:8px;font-size:12.5px;line-height:1.7;color:var(--muted)}
-.dots{display:flex;justify-content:center;gap:14px;margin:18px 0 6px}
-.dot{width:14px;height:14px;border-radius:50%;background:#EDE4D5;border:1px solid #E2D6C3;transition:transform .15s,background .15s}
-.dot.on{background:var(--mint);border-color:var(--mint);transform:scale(1.06)}
-.lock__msg{min-height:18px;font-size:11.5px;color:#C0603F;font-weight:600}
-.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
-.key{
-  height:50px;border-radius:15px;font-size:20px;font-weight:600;
-  background:rgba(255,255,255,.86);border:1px solid var(--line);
-  color:var(--ink);transition:transform .12s,background .15s,box-shadow .15s;
-  box-shadow:0 1px 0 rgba(120,100,70,.05);
+/* 잠금은 메인 포털로 옮겼습니다 (2026-11-27). */
+.homebtn{
+  display:inline-flex;align-items:center;gap:5px;flex:none;
+  padding:6px 11px;border-radius:999px;font-size:11.5px;font-weight:700;
+  color:#1F6B57;background:rgba(255,255,255,.78);
+  border:1px solid rgba(47,127,104,.22);
+  text-decoration:none;
   -webkit-tap-highlight-color:transparent;
 }
-.key:hover{background:#fff}
-.key:active{transform:scale(.95);background:var(--mint-50)}
-.key--ghost{font-size:16px;color:var(--muted);background:transparent;border-color:transparent;box-shadow:none}
-.lock.is-error .lock__card{animation:shake .4s}
-@keyframes shake{
-  0%,100%{transform:translateX(0)}
-  20%{transform:translateX(-7px)}
-  40%{transform:translateX(6px)}
-  60%{transform:translateX(-4px)}
-  80%{transform:translateX(3px)}
-}
+.homebtn:hover{background:#fff}
+.homebtn svg{flex:0 0 auto}
 
 /* ───────── 히어로 ───────── */
 .hero{
@@ -105,14 +65,6 @@ html.unlocked .lock{display:none}
 .hero__inner{max-width:720px;margin:0 auto}
 .hero__top{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .hero__kicker{font-size:10px;letter-spacing:.26em;font-weight:700;color:var(--mint-deep);text-transform:uppercase}
-.lockbtn{
-  display:inline-flex;align-items:center;gap:5px;flex:none;
-  padding:6px 10px;border-radius:999px;font-size:11px;font-weight:600;color:var(--ink-soft);
-  background:rgba(255,255,255,.7);border:1px solid var(--line);
-}
-.lockbtn:hover{background:#fff}
-.lockbtn span{display:none}
-@media (min-width:420px){.lockbtn span{display:inline}}
 
 .hero__week{
   margin-top:14px;font-family:var(--serif);font-weight:700;

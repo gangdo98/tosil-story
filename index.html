@@ -8,46 +8,16 @@
 <title>토실이 준비 노트 · 2027.04.12</title>
 <meta name="description" content="강도완·김명주 부부의 출산·육아 준비 노트. 임신 주수와 D-Day, 준비물 목록, 주차별 할 일, 지원금과 휴직 계획을 한 페이지에.">
 <script>
-try{if(localStorage.getItem('tosil.lock.v1')==='1'){document.documentElement.className+=' unlocked';}}catch(e){}
+/* 메인 포털에서 잠금을 풀고 들어오므로 이 사이트에는 잠금 화면이 없습니다. */
 </script>
 <link rel="icon" href="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='26' fill='%23A8DCC8'/%3E%3Ctext x='50' y='71' font-size='54' text-anchor='middle'%3E%F0%9F%8C%B1%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap">
-<link rel="stylesheet" href="styles.css?v=20261126b">
+<link rel="stylesheet" href="styles.css?v=20261127c">
 </head>
 <body>
-
-<!-- ───────── 잠금 화면 ───────── -->
-<div class="lock" id="lock" role="dialog" aria-modal="true" aria-labelledby="lockTitle">
-  <div class="lock__blob lock__blob--a" aria-hidden="true"></div>
-  <div class="lock__blob lock__blob--b" aria-hidden="true"></div>
-  <div class="lock__card">
-    <div class="lock__icon" aria-hidden="true">🌱</div>
-    <p class="lock__kicker">TOSIL STORY</p>
-    <h1 class="lock__title" id="lockTitle">토실이 준비 노트</h1>
-    <p class="lock__sub">우리 가족만 보는 페이지예요.<br>비밀번호 4자리를 눌러 주세요.</p>
-    <div class="dots" id="dots" aria-hidden="true">
-      <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
-    </div>
-    <p class="lock__msg" id="lockMsg" role="status" aria-live="polite"></p>
-    <div class="keypad" id="keypad">
-      <button class="key" type="button" data-key="1">1</button>
-      <button class="key" type="button" data-key="2">2</button>
-      <button class="key" type="button" data-key="3">3</button>
-      <button class="key" type="button" data-key="4">4</button>
-      <button class="key" type="button" data-key="5">5</button>
-      <button class="key" type="button" data-key="6">6</button>
-      <button class="key" type="button" data-key="7">7</button>
-      <button class="key" type="button" data-key="8">8</button>
-      <button class="key" type="button" data-key="9">9</button>
-      <button class="key key--ghost" type="button" data-key="del" aria-label="한 자리 지우기">⌫</button>
-      <button class="key" type="button" data-key="0">0</button>
-      <button class="key key--ghost" type="button" data-key="reset" aria-label="처음부터">↺</button>
-    </div>
-  </div>
-</div>
 
 <div class="app">
 
@@ -57,11 +27,11 @@ try{if(localStorage.getItem('tosil.lock.v1')==='1'){document.documentElement.cla
     <div class="hero__glow hero__glow--b" aria-hidden="true"></div>
     <div class="hero__inner">
       <div class="hero__top">
-        <p class="hero__kicker">TOSIL STORY · 우리 아기 준비 노트</p>
-        <button class="lockbtn" id="lockBtn" type="button" aria-label="다시 잠그기">
-          <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M17 9V7a5 5 0 0 0-10 0v2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2Zm-8-2a3 3 0 0 1 6 0v2H9V7Zm3 7a1.6 1.6 0 0 1 .8 3v1.4a.8.8 0 0 1-1.6 0V17a1.6 1.6 0 0 1 .8-3Z"/></svg>
-          <span>잠그기</span>
-        </button>
+        <p class="hero__kicker">우리 아기 준비 노트 · 2027.04.12</p>
+        <a class="homebtn" href="https://gangdo98.github.io/" aria-label="메인 포털로 돌아가기">
+          <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M12 3.2 3 10.6h2.4V20h5.1v-5.4h3V20h5.1v-9.4H21L12 3.2Z"/></svg>
+          <span>메인</span>
+        </a>
       </div>
 
       <h1 class="hero__week" id="heroWeek">20주 2일</h1>
@@ -315,6 +285,27 @@ try{if(localStorage.getItem('tosil.lock.v1')==='1'){document.documentElement.cla
           <textarea id="memo" rows="6" placeholder="예) 11/28 정밀초음파 예약 · 일신기독병원 3층&#10;예) 12/20 임당검사, 전날 밤 9시 이후 금식"></textarea>
           <p class="memo__hint" id="memoHint">입력하면 자동으로 저장돼요.</p>
         </div>
+
+        <div class="sec-head sec-head--tight">
+          <h2>선택 제왕절개 · 일신기독병원</h2>
+          <p>2026-11-27에 정리한 내용이에요. 다음 검진 때 그대로 물어보세요.</p>
+        </div>
+        <div class="card">
+          <div class="appointment__head">
+            <span class="badge badge--peach">상담 준비</span>
+            <span class="appointment__state">20주 2일 기준</span>
+          </div>
+          <p class="appointment__title">원하면 선택 제왕이 가능한가</p>
+          <p class="appointment__sub">결론부터 — <b>법으로 막혀 있지 않고</b>, 병원과 의사에 따라 조건이 달라요.</p>
+          <dl class="kv">
+            <div><dt>① 법</dt><dd>2025년 1월부터 제왕절개 건보 본인부담이 0%가 됐어요. 산모가 원해서 하는 제왕을 법으로 금지하는 규정은 없습니다.</dd></div>
+            <div><dt>② 종교</dt><dd>기독병원이라 제왕을 못 하는 게 아니에요. 심평원 데이터 기준 죄천 일신기독병원은 자연분만 19% · 제왕절개 81%입니다.</dd></div>
+            <div><dt>③ 명분</dt><dd>포괄수가제(DRG)와 심평원 적정성 평가, 학회 지침의 “1차는 자연분만 권유” 때문에 진행 정지·역아·아두골반불균형 같은 이유를 먼저 찾아요. 20주차라 아직 판단하기 이른 것도 있고요.</dd></div>
+            <div><dt>④ 의사</dt><dd>같은 병원에서도 의사 성향 차이가 큽니다. 전문의를 바꾸거나 전원하는 타이밍도 이때 함께 정해 두세요.</dd></div>
+          </dl>
+          <p class="item__next"><b>다음 검진에서 이렇게 물어보세요</b> — “산모가 자연분만 공포가 커서 계획 제왕을 원하는데 가능할까요?” 그리고 안 된다면 <b>어떤 조건이 되면 가능한지</b>, <b>다른 전문의·전원은 언제까지 정해야 하는지</b>도 같이 물어보세요.</p>
+          <p class="source">참고 · 건강보험심사평가원 병원별 제왕절개분만율 공개(hira.or.kr) · 대한산부인과의사회(kago.or.kr) · 보건복지부 제왕절개 본인부담 안내(mohw.go.kr). 확인일 2026-11-27.</p>
+        </div>
       </div>
     </section>
 
@@ -365,6 +356,45 @@ try{if(localStorage.getItem('tosil.lock.v1')==='1'){document.documentElement.cla
           </ol>
           <p class="calc__note">세액공제는 결제한 사람 명의로만 적용돼요. 맞벌이라면 소득이 낮은 쪽 카드로 결제하는 게 유리해요. 조리원 잔금 3,465,000원(할인 시 3,365,000원) 기준으로 짜면 ② 200만 원 + ③ 나머지로 나눠 결제하면 돼요.</p>
         </div>
+
+        <div class="sec-head sec-head--tight">
+          <h2>산후조리 전략 · 산후도우미</h2>
+          <p>조리원 9박 10일 뒤, 집에서의 2주를 어떻게 채울지 정리했어요.</p>
+        </div>
+        <div class="card">
+          <div class="appointment__head">
+            <span class="badge badge--mint">신청 준비</span>
+            <span class="appointment__state">예정일 40일 전 ~ 출산 후 60일</span>
+          </div>
+          <p class="appointment__title">산모·신생아 건강관리사 (산후도우미)</p>
+          <p class="appointment__sub">복지로 또는 동구보건소(☎ 051-440-6564)에서 신청. 인기 관리사는 <b>25~30주에 가예약</b>해 두는 게 안전해요.</p>
+          <ul class="money__list">
+            <li>신청 기간: 출산예정일 <b>40일 전 ~ 출산 후 60일 이내</b></li>
+            <li>서비스 기간: 2주(평일 10일) / 3주(15일) / 한 달(평일 20일) 중 선택</li>
+            <li>정부 바우처는 <b>도우미 결제 전용</b> — 조리원비에는 쓸 수 없어요</li>
+            <li>3인 가구(태아 포함) 직장 건강보험료 기준: 150% 이하 <b>290,169원</b> / 180% 이하 <b>348,913원</b></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 class="h3">추천 타임라인</h3>
+          <ol class="payorder__list" style="margin-top:9px">
+            <li><b>출산휴가 앞 2주</b> — 병원 + 루안느 조리원 9박 10일</li>
+            <li><b>뒤 2주</b> — 집에서 부부 + 토실 + 이모님(산후도우미) 네 명이 함께 적응</li>
+            <li><b>그다음</b> — 도완 유아휴직으로 넘어가기</li>
+          </ol>
+        </div>
+        <div class="tablewrap">
+          <table class="table">
+            <caption class="sr-only">산후도우미 2주와 한 달 비교</caption>
+            <thead><tr><th>구분</th><th>2주 (평일 10일)</th><th>한 달 (평일 20일)</th></tr></thead>
+            <tbody>
+              <tr><th>총 비용</th><td>146만 4천 원</td><td>업체별 상이 (2주 요율의 약 2배)</td></tr>
+              <tr><th>지원</th><td>정부 바우처 + 부산형 산후조리경비 90% 환급</td><td>첫째아 바우처 상한 10~15일까지만</td></tr>
+              <tr><th>실부담</th><td>약 4만 6천 ~ 20만 원</td><td>약 112만 ~ 170만 원</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">2026년 부산시 기준. 한 달은 바우처 상한(10~15일)을 넘는 기간이 전액 사비라 실부담이 크게 올라가요. 2주는 부산형 산후조리경비 90% 환급이 붙어 실부담이 확 줄고, 조리원 직후 한 번은 꼭 신청하세요.</p>
 
         <div class="sec-head sec-head--tight">
           <h2>육아휴직 플랜</h2>
@@ -445,7 +475,7 @@ try{if(localStorage.getItem('tosil.lock.v1')==='1'){document.documentElement.cla
   <footer class="footer">
     <p class="footer__title">토실이 준비 노트</p>
     <p class="footer__meta">강도완 · 김명주 · 2027. 4. 12 만나요</p>
-    <p class="footer__note">마지막 업데이트 <span id="updated">2026-11-26</span> · 가족만 보는 페이지예요</p>
+    <p class="footer__note">마지막 업데이트 <span id="updated">2026-11-27</span> · 가족만 보는 페이지예요</p>
   </footer>
 
 </div>
@@ -456,6 +486,6 @@ try{if(localStorage.getItem('tosil.lock.v1')==='1'){document.documentElement.cla
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 <script src="friend-list.js?v=20261125d"></script>
-<script src="app.js?v=20261126b"></script>
+<script src="app.js?v=20261127c"></script>
 </body>
 </html>
