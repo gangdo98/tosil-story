@@ -622,15 +622,25 @@ ul,ol{padding:0;list-style:none}
 }
 .toast.is-on{opacity:1;transform:translate(-50%,0)}
 
-.totop{
-  position:fixed;right:16px;bottom:18px;z-index:90;
-  width:42px;height:42px;border-radius:50%;
-  background:rgba(255,253,248,.92);border:1px solid var(--line);color:var(--mint-deep);
-  font-size:15px;font-weight:700;box-shadow:var(--shadow);
-  opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;
+/* ───────── 하단 플로팅 버튼 (왼쪽 ↑ 맨 위로 · 오른쪽 🏠 메인) ───────── */
+.fab{
+  position:fixed;bottom:calc(env(safe-area-inset-bottom) + 18px);z-index:95;
+  display:inline-flex;align-items:center;justify-content:center;
+  width:42px;height:42px;padding:0;border-radius:50%;
+  background:rgba(255,253,248,.94);border:1px solid var(--line);color:var(--mint-deep);
+  font-size:15px;font-weight:700;line-height:1;
+  box-shadow:var(--shadow);text-decoration:none;
+  -webkit-tap-highlight-color:transparent;
+  transition:opacity .22s,transform .22s,visibility .22s;
 }
-.totop.is-on{opacity:1;pointer-events:auto}
-.totop:active{transform:scale(.94)}
+.fab svg{display:block}
+.fab--top{left:16px;opacity:0;visibility:hidden;transform:translateY(8px)}
+.fab--top.is-on{opacity:1;visibility:visible;transform:none}
+.fab--home{right:16px}
+.fab:active{transform:scale(.94)}
+@media (max-width:600px){
+  .footer{padding-bottom:78px}
+}
 
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.01ms !important;transition-duration:.01ms !important}

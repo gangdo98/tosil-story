@@ -1510,9 +1510,11 @@
 
   function bindToTop() {
     const btn = $('#toTop');
+    if (!btn) return;
     window.addEventListener('scroll', () => {
-      btn.classList.toggle('is-on', window.scrollY > 700);
+      btn.classList.toggle('is-on', window.scrollY > 260);
     }, { passive: true });
+    btn.classList.toggle('is-on', window.scrollY > 260);
     btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   }
 
