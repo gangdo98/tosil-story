@@ -4,6 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#FBF6EC">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="토실이 노트">
 <meta name="robots" content="noindex, nofollow">
 <title>토실이 준비 노트 · 2027.04.12</title>
 <meta name="description" content="강도완·김명주 부부의 출산·육아 준비 노트. 임신 주수와 D-Day, 준비물 목록, 주차별 할 일, 지원금과 휴직 계획을 한 페이지에.">
@@ -11,6 +17,7 @@
 /* 메인 포털에서 잠금을 풀고 들어오므로 이 사이트에는 잠금 화면이 없습니다. */
 </script>
 <link rel="icon" href="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='26' fill='%23A8DCC8'/%3E%3Ctext x='50' y='71' font-size='54' text-anchor='middle'%3E%F0%9F%8C%B1%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
@@ -490,5 +497,15 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 <script src="friend-list.js?v=20261125d"></script>
 <script src="app.js?v=20261128d"></script>
+<script>
+  /* PWA — 서비스 워커 등록. 실패해도 화면 기능은 그대로입니다. */
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('./sw.js').catch(function (err) {
+        console.warn('서비스 워커 등록 실패', err);
+      });
+    });
+  }
+</script>
 </body>
 </html>
