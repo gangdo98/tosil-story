@@ -499,22 +499,28 @@
 <script src="app.js?v=20261128d"></script>
 <script>
   /* PWA — 서비스 워커 등록. 실패해도 화면 기능은 그대로입니다.
-     등록되면 이 화면이 실제로 쓴 css·js·json·이미지를 워커에 넘겨 미리 캐시해,
-     처음 설치한 날부터 비행기 모드에서도 열립니다. */
+     sw.js 가 설치 때 화면 자산을 미리 받아 두고, 여기서는 이 화면이 실제로 쓴
+     css·js·json·이미지를 한 번 더 확인해 빠진 것만 보충합니다. */
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
-      navigator.serviceWorker.register('./sw.js').then(function (reg) {
-        return navigator.serviceWorker.ready.then(function () { return reg; });
-      }).then(function (reg) {
+      function post(sw) {
         try {
           var base = location.origin + location.pathname.replace(/[^/]*$/, '');
           var urls = performance.getEntriesByType('resource').map(function (e) { return e.name; })
             .filter(function (u) {
               return u.indexOf(base) === 0 && /\.(css|js|json|png|jpe?g|webp|svg|woff2?)(\?|$)/i.test(u);
             });
-          var sw = reg.active || navigator.serviceWorker.controller;
           if (sw && urls.length) sw.postMessage({ type: 'CACHE_URLS', urls: urls });
         } catch (e) {}
+      }
+      navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' }).then(function () {
+        return navigator.serviceWorker.ready;
+      }).then(function (reg) {
+        var sw = navigator.serviceWorker.controller || reg.active;
+        if (sw) { post(sw); return; }
+        navigator.serviceWorker.addEventListener('controllerchange', function () {
+          post(navigator.serviceWorker.controller);
+        }, { once: true });
       }).catch(function (err) {
         console.warn('서비스 워커 등록 실패', err);
       });
