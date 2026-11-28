@@ -4,8 +4,10 @@
    Firebase·Google Fonts·CDN·지도 타일 같은 외부 요청은 그대로 통과시킵니다. */
 'use strict';
 
-const VERSION = '2026-11-29b';
-const CACHE = 'tosil-pwa-' + VERSION;
+const SITE = 'tosil-story';
+const VERSION = '2026-11-29d';
+const CACHE = 'tosil-pwa-' + SITE + '-' + VERSION;
+const LEGACY = ['tosil-pwa-2026-11-29a', 'tosil-pwa-2026-11-29b'];
 const CORE = [
   './',
   './index.html',
@@ -35,7 +37,9 @@ self.addEventListener('activate', function (event) {
   event.waitUntil((async function () {
     const keys = await caches.keys();
     await Promise.all(keys.map(function (key) {
-      if (key.indexOf('tosil-pwa-') === 0 && key !== CACHE) return caches.delete(key);
+      /* 이 사이트의 옛 버전만 지운다. 다른 사이트(스코프) 캐시는 건드리지 않는다. */
+      if (key.indexOf('tosil-pwa-' + SITE + '-') === 0 && key !== CACHE) return caches.delete(key);
+      if (LEGACY.indexOf(key) !== -1) return caches.delete(key);
     }));
     await self.clients.claim();
   })());
@@ -71,6 +75,25 @@ async function networkFirst(request) {
     });
   }
 }
+
+/* 화면이 넘겨준 자원(현재 버전 css·js·json·이미지)을 미리 캐시한다.
+   이미 캐시에 있는 URL(버전 쿼리 포함)은 건너뛴다. */
+self.addEventListener('message', function (event) {
+  const data = event.data;
+  if (!data || data.type !== 'CACHE_URLS' || !Array.isArray(data.urls)) return;
+  event.waitUntil((async function () {
+    const cache = await caches.open(CACHE);
+    const urls = data.urls.slice(0, 60);
+    await Promise.all(urls.map(async function (url) {
+      try {
+        const hit = await cache.match(url);
+        if (hit) return;
+        const res = await fetch(url, { cache: 'reload' });
+        if (res && res.ok && res.type === 'basic') await cache.put(url, res);
+      } catch (e) {}
+    }));
+  })());
+});
 
 self.addEventListener('fetch', function (event) {
   const request = event.request;

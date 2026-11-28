@@ -498,10 +498,24 @@
 <script src="friend-list.js?v=20261125d"></script>
 <script src="app.js?v=20261128d"></script>
 <script>
-  /* PWA — 서비스 워커 등록. 실패해도 화면 기능은 그대로입니다. */
+  /* PWA — 서비스 워커 등록. 실패해도 화면 기능은 그대로입니다.
+     등록되면 이 화면이 실제로 쓴 css·js·json·이미지를 워커에 넘겨 미리 캐시해,
+     처음 설치한 날부터 비행기 모드에서도 열립니다. */
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
-      navigator.serviceWorker.register('./sw.js').catch(function (err) {
+      navigator.serviceWorker.register('./sw.js').then(function (reg) {
+        return navigator.serviceWorker.ready.then(function () { return reg; });
+      }).then(function (reg) {
+        try {
+          var base = location.origin + location.pathname.replace(/[^/]*$/, '');
+          var urls = performance.getEntriesByType('resource').map(function (e) { return e.name; })
+            .filter(function (u) {
+              return u.indexOf(base) === 0 && /\.(css|js|json|png|jpe?g|webp|svg|woff2?)(\?|$)/i.test(u);
+            });
+          var sw = reg.active || navigator.serviceWorker.controller;
+          if (sw && urls.length) sw.postMessage({ type: 'CACHE_URLS', urls: urls });
+        } catch (e) {}
+      }).catch(function (err) {
         console.warn('서비스 워커 등록 실패', err);
       });
     });
