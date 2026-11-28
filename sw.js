@@ -4,7 +4,7 @@
    Firebase·Google Fonts·CDN·지도 타일 같은 외부 요청은 그대로 통과시킵니다. */
 'use strict';
 
-const VERSION = '2026-11-29a';
+const VERSION = '2026-11-29b';
 const CACHE = 'tosil-pwa-' + VERSION;
 const CORE = [
   './',
@@ -44,7 +44,11 @@ self.addEventListener('activate', function (event) {
 async function networkFirst(request) {
   const cache = await caches.open(CACHE);
   try {
-    const response = await fetch(request);
+    /* GitHub Pages 는 max-age=600 이라 그대로 두면 최대 10분 묵은 파일이 올 수 있다.
+       no-cache 로 조건부 요청을 보내 항상 바뀐 것이 있는지 확인한다. */
+    let fresh = request;
+    try { fresh = new Request(request, { cache: 'no-cache' }); } catch (e) { fresh = request; }
+    const response = await fetch(fresh);
     if (response && response.ok && response.type === 'basic') {
       cache.put(request, response.clone()).catch(function () {});
     }
